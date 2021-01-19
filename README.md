@@ -2,6 +2,11 @@
 
 [Supervised Home Assistant](https://home-assistant.io/) in a VirtualBox environment. My use case is a wall mounted Microsoft Surface Pro4 displaying Home Assistant in Full screen Chrome.
 
+## Node-Red
+
+* Using Node-Red to check and control the input settings on my receiver and tv and control a Broadlink remote to start different activities to watch TV, Netflix, Disney+ or Plex for example.
+* Also using Node-Red to collect the steps counter from the HA companion app on our phones and compare the values to declare the winner of the day! (see below)
+
 ## Features
 
 * Dynamic 3D Floorplan: brightness mapped individual lights with custom popup controller.
