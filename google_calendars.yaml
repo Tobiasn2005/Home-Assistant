@@ -1,0 +1,8 @@
+
+- cal_id: dd5pknle2jdomecj50nqlduh1hhmfvou@import.calendar.google.com
+  entities:
+  - device_id: spel
+    ignore_availability: true
+    name: http://kartenquelle.de/Playstation_4_Releases_Europe.ics
+    track: true
+    max_results: 10

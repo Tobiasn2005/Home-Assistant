@@ -1,0 +1,204 @@
+
+script:
+
+  ####################################################
+  #                                                  #
+  #                     SCRIPTS                      #
+  #                                                  #
+  ####################################################
+
+  notify_tesla_open:
+    alias: "Notify when something on the tesla is left open"
+    sequence:
+      - service: notify.notify_group
+        data_template:
+          title: "Tesla Notification"
+          message: "You have left the {{ whatsopen }} open on the Tesla!"
+      - service: script.turn_on
+        data_template:
+          entity_id: script.notify_tesla_{{ whatsopen }}_open
+  
+  notify_tesla_doors_open:
+    sequence:
+      - delay:
+          minutes: 5
+      - delay:
+          seconds: "{{ range(0, 30)|random|int }}"
+      - service: script.turn_on
+        entity_id: script.notify_tesla_open
+        data:
+          variables:
+            whatsopen: "doors"
+  
+  notify_tesla_frunk_open:
+    sequence:
+      - delay:
+          minutes: 5
+      - delay:
+          seconds: "{{ range(0, 30)|random|int }}"
+      - service: script.turn_on
+        entity_id: script.notify_tesla_open
+        data:
+          variables:
+            whatsopen: "frunk"
+  
+  notify_tesla_trunk_open:
+    sequence:
+      - delay:
+          minutes: 5
+      - delay:
+          seconds: "{{ range(0, 30)|random|int }}"
+      - service: script.turn_on
+        entity_id: script.notify_tesla_open
+        data:
+          variables:
+            whatsopen: "trunk"
+  
+  notify_tesla_windows_open:
+    sequence:
+      - delay:
+          minutes: 5
+      - delay:
+          seconds: "{{ range(0, 30)|random|int }}"
+      - service: script.turn_on
+        entity_id: script.notify_tesla_open
+        data:
+          variables:
+            whatsopen: "windows"
+            
+  tobias_find_my_iphone:
+    sequence:
+      - repeat:
+          count: 3
+          sequence:
+            - service: notify.mobile_app_iphone_van_tobias
+              data:
+                title: Find my iPhone
+                message: Here I am
+                data:
+                  push:
+                    sound:
+                      name: Ringtone_UK_Haptic.caf
+                      critical: 1
+                      volume: 1.0
+            - delay:
+                seconds: 4
+
+  maaike_find_my_iphone:
+    sequence:
+      - repeat:
+          count: 3
+          sequence:
+            - service: notify.mobile_app_imaai
+              data:
+                title: Find my iPhone
+                message: Here I am
+                data:
+                  push:
+                    sound:
+                      name: Ringtone_UK_Haptic.caf
+                      critical: 1
+                      volume: 1.0
+            - delay:
+                seconds: 4  
+
+  boris_find_my_iphone:
+    sequence:
+      - repeat:
+          count: 3
+          sequence:
+            - service: notify.mobile_app_blowfish
+              data:
+                title: Find my iPhone
+                message: Here I am
+                data:
+                  push:
+                    sound:
+                      name: Ringtone_UK_Haptic.caf
+                      critical: 1
+                      volume: 1.0
+            - delay:
+                seconds: 4   
+
+  reza_find_my_iphone:
+    sequence:
+      - repeat:
+          count: 3
+          sequence:
+            - service: notify.mobile_app_iphone
+              data:
+                title: Find my iPhone
+                message: Here I am
+                data:
+                  push:
+                    sound:
+                      name: Ringtone_UK_Haptic.caf
+                      critical: 1
+                      volume: 1.0
+            - delay:
+                seconds: 4       
+
+  nova_find_my_iphone:
+    sequence:
+      - repeat:
+          count: 3
+          sequence:
+            - service: notify.mobile_app_iphone_van_nova
+              data:
+                title: Find my iPhone
+                message: Here I am
+                data:
+                  push:
+                    sound:
+                      name: Ringtone_UK_Haptic.caf
+                      critical: 1
+                      volume: 1.0
+            - delay:
+                seconds: 4      
+
+  home_leave:
+    alias: All off
+    sequence:
+      - service: light.turn_off
+        entity_id: 
+          ['light.woonkamer', 'light.keuken']
+      - service: switch.turn_off
+        entity_id:
+          ['switch.plug_versterker_aangezet']
+      - choose:
+        - conditions:
+            - condition: state
+              entity_id: binary_sensor.playstation_4
+              state: 'on'
+          sequence:
+            - service: switch.turn_off
+              entity_id: switch.playstation_4
+      - choose:
+        - conditions:
+            - condition: state
+              entity_id: media_player.samsung_woonkamer
+              state: 'on'
+          sequence:
+            - service: switch.turn_off
+              entity_id: switch.tv_beneden
+      - delay:
+          seconds: 4   
+
+  home_arrive:
+    alias: Evening
+    sequence:
+      - choose:
+        - conditions:
+            - condition: state
+              entity_id: sun.sun
+              state: below_horizon
+          sequence:
+            - service: scene.turn_on
+              data:
+                entity_id: scene.avond
+        default:
+          - service: scene.turn_on
+            data:
+              entity_id: scene.avond
+      - delay:
+          seconds: 4          

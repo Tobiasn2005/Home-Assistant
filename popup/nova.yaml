@@ -1,0 +1,96 @@
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Nova
+                hide_header: true
+                deviceID: this
+                style:
+                  .: |
+                    :host .content {
+                      width: calc(385px + 385px);
+                      max-width: 90vw;
+                    }
+                  $: |
+                    .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                      background: none !important;
+                    }
+                card:
+                  type: custom:layout-card
+                  column_num: 2
+                  column_width: [385, 385]
+                  layout: vertical
+                  cards:
+                    - type: entities
+                      title: Nova
+                      class: add_header
+                      state_color: true
+                      show_header_toggle: false
+                      entities:
+
+                        - entity: person.nova
+                          secondary_info: last-changed
+
+                        - entity: sensor.iphone_van_tobias_steps
+                        - entity: sensor.imaai_steps
+                        - entity: sensor.boris_steps
+                        - entity: sensor.iphone_steps
+                        - entity: sensor.iphone_van_nova_steps
+
+                        - type: custom:hui-element
+                          card_type: glance
+                          show_state: false
+                          style:
+                            .: |
+                              ha-card {
+                                background: none;
+                                box-shadow: none;
+                              }
+                            "ha-card>div>div:nth-child(1)":
+                              $:
+                                "state-badge":
+                                  $: |
+                                    ha-icon {
+                                      color: {{ '#3182b7' if is_state('device_tracker.iphone_van_nova', 'home') else '#FFFFFF20' }};
+                                    }
+                          entities:
+                            - entity: device_tracker.iphone_van_nova
+                              name: Position
+                              icon: custom:iphone-modern
+
+                        - type: custom:hui-element
+                          card_type: horizontal-stack
+                          style: |
+                            #root {
+                              justify-content: space-evenly;
+                              margin: -1em 0 0 0;
+                            }
+                          cards:
+
+                          - type: custom:button-card
+                            name: >
+                              <ha-icon icon="mdi:volume-high"></ha-icon> Play audio on iPhone
+                            tap_action:
+                              action: call-service
+                              service: script.nova_find_my_iphone
+                            template: name_action
+                            styles:
+                              card:
+                                [background: none, border-radius: none]
+                                
+                    - break            
+
+                    - type: entities
+                      title: Map
+                      class: add_header
+                      show_header_toggle: false
+                    #  style: |
+                    #    #states > div > mini-graph-card {
+                    #      margin: -22.7px -34px -21px -23px;
+                    #    }
+                      entities:
+                        - type: custom:hui-element
+                          card_type: map
+                          class: map
+                          entities: [device_tracker.iphone_van_nova]
+                          default_zoom: 14
+

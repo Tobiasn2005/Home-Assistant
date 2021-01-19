@@ -1,0 +1,83 @@
+
+input_boolean:
+
+  ####################################################
+  #                                                  #
+  #                     BOOLEAN                      #
+  #                                                  #
+  ####################################################
+
+  samsung_woonkamer:
+    initial: off
+  samsung_slaapkamer:
+    initial: off
+  playstation_4:
+    initial: off
+  ziggo:
+    initial: off
+  plex:
+    initial: off
+  disney:
+    initial: off
+  netflix:
+    initial: off  
+
+input_select:
+
+  ####################################################
+  #                                                  #
+  #                      SELECT                      #
+  #                                                  #
+  ####################################################
+
+  hdmi:
+    name: Source
+    options:
+      ['TV', 'HDMI 1', 'HDMI 2', 'HDMI 3', 'HDMI 4']
+    initial: TV
+    icon: custom:hdmi-source
+
+  hdmi2:
+    name: Source
+    options:
+      ['TV', 'HDMI']
+    initial: HDMI
+    icon: custom:hdmi-source
+    
+  steps:
+    name: Stappen
+    options:
+      ['tobias', 'maaike', 'boris', 'reza', 'nova']
+    initial: maaike
+    icon: mdi:walk
+
+  conditional_media:
+    initial: Last download
+    options:
+      ['Last download', 'Woonkamer', 'Slaapkamer', 'PlayStation 4', 'Google Cast TV']
+      
+input_number:
+
+  ####################################################
+  #                                                  #
+  #                      NUMBER                      #
+  #                                                  #
+  ####################################################
+
+  sonos_keuken_volume:
+    name: Volume
+    icon: mdi:volume-high
+    initial: 16
+    min: 5
+    max: 70
+    step: 2
+    unit_of_measurement: '%'    
+
+  sonos_zolder_volume:
+    name: Volume
+    icon: mdi:volume-high
+    initial: 16
+    min: 5
+    max: 70
+    step: 2
+    unit_of_measurement: '%'      

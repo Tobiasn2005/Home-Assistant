@@ -1,0 +1,96 @@
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: TV Woonkamer
+                deviceID: this
+                card:
+                  type: entities
+                  state_color: true
+                  show_header_toggle: false
+                  entities:
+
+                    - entity: switch.ziggo_aangezet
+                      name: Samsung
+                      secondary_info: last-changed
+
+                    - type: custom:hui-element
+                      card_type: horizontal-stack
+                      style: |
+                        #root {
+                          justify-content: space-evenly;
+                          margin: 1.4em -0.7em 0.7em 0;
+                        }
+                      cards:
+
+                      - type: custom:button-card
+                        icon: mdi:netflix
+                        name: Netflix
+                        tap_action:
+                          action: call-service
+                          service: input_boolean.toggle
+                          service_data:
+                            entity_id: input_boolean.netflix
+                        template: icon_action
+                        
+                      - type: custom:button-card
+                        icon: mdi:plex
+                        name: Plex
+                        tap_action:
+                          action: call-service
+                          service: input_boolean.toggle
+                          service_data:
+                            entity_id: input_boolean.plex
+                        template: icon_action      
+
+                      - type: custom:button-card
+                        icon: mdi:cast
+                        name: Cast
+                        tap_action:
+                          action: call-service
+                          service: input_boolean.toggle
+                          service_data:
+                            entity_id: input_boolean.disney
+                        template: icon_action                           
+
+                    - entity: input_select.hdmi
+
+                    - type: custom:hui-element
+                      card_type: horizontal-stack
+                      style: |
+                        #root {
+                          justify-content: space-evenly;
+                          margin: 1.4em -0.7em 0.7em 0;
+                        }
+                      cards:
+
+                      - type: custom:button-card
+                        entity: media_player.samsung_woonkamer
+                        icon: mdi:volume-mute
+                        show_name: false
+                        tap_action:
+                          action: call-service
+                          service: media_player.volume_mute
+                          service_data:
+                            entity_id: > 
+                              [[[ return entity.entity_id; ]]]
+                            is_volume_muted: >
+                              [[[ return entity.attributes.is_volume_muted === 'false' ? 'true' : 'false'; ]]]
+                        template: icon_action
+
+                      - type: custom:button-card
+                        icon: mdi:volume-minus
+                        tap_action:
+                          action: call-service
+                          service: media_player.volume_down
+                          service_data:
+                            entity_id: media_player.samsung_woonkamer
+                        template: icon_action
+
+                      - type: custom:button-card
+                        icon: mdi:volume-plus
+                        tap_action:
+                          action: call-service
+                          service: media_player.volume_up
+                          service_data:
+                            entity_id: media_player.samsung_woonkamer
+                        template: icon_action

@@ -1,0 +1,482 @@
+automation:
+
+    ####################################################
+    #                                                  #
+    #                   AUTOMATIONS                    #
+    #                                                  #
+    ####################################################
+
+  - alias: Update Tesla location as MQTT location updates
+    initial_state: true
+    trigger:
+    - platform: mqtt
+      topic: teslamate/cars/1/latitude
+    - platform: mqtt
+      topic: teslamate/cars/1/longitude
+    action:
+    - service: device_tracker.see
+      data_template:
+        dev_id: tesla_location
+        gps:
+        - '{{ states.sensor.tesla_latitude.state }}'
+        - '{{ states.sensor.tesla_longitude.state }}'
+    id: a23e4361ed7d4211996327b5880654e4
+    
+  - alias: Set timer if teslamate reports something is open to alert us
+    initial_state: true
+    trigger:
+    - platform: mqtt
+      topic: teslamate/cars/1/windows_open
+      payload: 'true'
+    - platform: mqtt
+      topic: teslamate/cars/1/doors_open
+      payload: 'true'
+    - platform: mqtt
+      topic: teslamate/cars/1/trunk_open
+      payload: 'true'
+    - platform: mqtt
+      topic: teslamate/cars/1/frunk_open
+      payload: 'true'
+    action:
+    - service: script.turn_on
+      data_template:
+        entity_id: script.notify_tesla_{{trigger.topic.split('/')[3]}}
+    id: a332cc01f44242d5a20f22065c9f7235
+    
+  - alias: Cancel notification if said door/window is closed
+    initial_state: true
+    trigger:
+    - platform: mqtt
+      topic: teslamate/cars/1/windows_open
+      payload: 'false'
+    - platform: mqtt
+      topic: teslamate/cars/1/doors_open
+      payload: 'false'
+    - platform: mqtt
+      topic: teslamate/cars/1/trunk_open
+      payload: 'false'
+    - platform: mqtt
+      topic: teslamate/cars/1/frunk_open
+      payload: 'false'
+    action:
+    - service: script.turn_off
+      data_template:
+        entity_id: script.notify_tesla_{{trigger.topic.split('/')[3]}}
+    id: 6d8465126e2f406cbac9cfb6bddb23b3
+    
+  - id: popup_camera_when_human_detected
+    alias: Popup Camera When Human Detected
+    hide_entity: true
+    initial_state: 'true'
+    trigger:
+      platform: state
+      entity_id: binary_sensor.buiten_sensor_motion
+      to: 'on'
+    action:
+      - service: browser_mod.more_info
+        data:
+          entity_id: camera.oprit         
+            
+  - id: close_popup_camera
+    alias: Close Popup Camera
+    hide_entity: true
+    initial_state: 'true'
+    trigger:
+      platform: state
+      entity_id: binary_sensor.buiten_sensor_motion
+      to: 'off'
+    action:
+      - service: browser_mod.close_popup       
+    
+  - alias: Get floorplan
+    trigger:
+      platform: mqtt
+      topic: setFloorplan/set
+    action:
+      service: input_number.set_value
+      data:
+        entity_id: input_number.downstairs
+        value: '{{ trigger.payload }}'
+    id: 1926a6bf05404285912bc891f2ef8344
+    
+  - alias: Set floorplan
+    trigger:
+      platform: state
+      entity_id: input_number.downstairs
+    action:
+      service: mqtt.publish
+      data:
+        topic: setFloorplan
+        retain: true
+        payload: '{{ states(''input_number.downstairs'') | int }}'
+    id: c747c6c6095a4b3092c7875488a09914
+    
+  - alias: Set sun
+    trigger:
+      platform: state
+      entity_id: sun.sun
+    action:
+      service: mqtt.publish
+      data:
+        topic: setFloorplan/sun
+        retain: true
+        payload: '{{ states(''sun.sun'')}}'
+    id: 1d7400f54b1c456eb0cc240580e9927a
+    
+  - alias: Get charging
+    trigger:
+      platform: mqtt
+      topic: Charging/set
+    action:
+      service: input_number.set_value
+      data:
+        entity_id: input_number.charger
+        value: '{{ trigger.payload }}'
+    id: 2456c26e36c0482ca18fcddb273e61c8
+    
+  - alias: Set christmas
+    trigger:
+      platform: state
+      entity_id: sensor.christmas_time
+    action:
+      service: mqtt.publish
+      data:
+        topic: Christmas
+        retain: true
+        payload: '{{ states(''sensor.christmas_time'')}}'
+    id: 112cee70611e4a05b9f7e8da36c5563f
+    
+  - alias: Set Netflix
+    trigger:
+      platform: state
+      entity_id: input_boolean.netflix
+    action:
+      service: mqtt.publish
+      data:
+        topic: TV/Netflix
+        retain: true
+        payload: '{{ states(''input_boolean.netflix'')}}'     
+
+  - alias: Set Plex
+    trigger:
+      platform: state
+      entity_id: input_boolean.plex
+    action:
+      service: mqtt.publish
+      data:
+        topic: TV/Plex
+        retain: true
+        payload: '{{ states(''input_boolean.plex'')}}'
+        
+  - alias: Start Disney+
+    trigger:
+      platform: state
+      entity_id: input_boolean.disney
+      from: 'off'
+      to: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: TV/Disney
+          retain: true
+          payload: '{{ states(''input_boolean.disney'')}}'
+      - delay:
+          seconds: 5
+      - service: media_player.select_source
+        data:          
+          entity_id: media_player.marantz
+          source: 'Chrome'   
+
+  - alias: Stop Disney+
+    trigger:
+      platform: state
+      entity_id: input_boolean.disney
+      from: 'on'
+      to: 'off'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: TV/Disney
+          retain: true
+          payload: '{{ states(''input_boolean.disney'')}}'
+      - delay:
+          seconds: 1
+      - service: media_player.select_source
+        data:          
+          entity_id: media_player.marantz
+          source: 'TV' 
+
+  - alias: Set Ziggo
+    trigger:
+      platform: state
+      entity_id: input_boolean.ziggo
+    action:
+      service: mqtt.publish
+      data:
+        topic: TV/Ziggo
+        retain: true
+        payload: '{{ states(''input_boolean.ziggo'')}}'           
+  
+  - alias: clear_log_filesize
+    initial_state: true
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.home_assistant_log
+        above: 50
+    action:
+      - service: shell_command.clear_logs  
+      
+    ####################################################
+    #                                                  #
+    #                     LOADING                      #
+    #                                                  #
+    ####################################################
+
+  - alias: turn_off_loading_wheel
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id:
+          ['media_player.samsung_woonkamer', 'media_player.samsung_slaapkamer', 'switch.playstation_4']
+    action:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: >
+            {{ trigger.entity_id | replace(trigger.entity_id.split('.')[0], 'input_boolean') }}
+
+  - alias: turn_off_loading_wheel_failsafe
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id:
+          ['input_boolean.samsung_woonkamer', 'input_boolean.samsung_slaapkamer', 'input_boolean.playstation_4']
+        to: 'on'
+        for:
+          minutes: 1
+    action:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: >
+            {{ trigger.entity_id }}
+
+    ####################################################
+    #                                                  #
+    #                    HDMI / TV                     #
+    #                                                  #
+    ####################################################
+
+  - alias: hdmi_input_select
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: input_select.hdmi
+    action:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.samsung_woonkamer
+          source: >
+            {{ states(trigger.entity_id) }}
+
+  - alias: hdmi2_input_select
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: input_select.hdmi2
+    action:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.samsung_slaapkamer
+          source: >
+            {{ states(trigger.entity_id) }}
+                      
+  - alias: turn_on_tv_failsafe
+    initial_state: true
+    trigger:
+      - platform: event
+        event_type: call_service
+        event_data:
+          domain: input_boolean
+          service: turn_on
+          service_data:
+            entity_id: media_player.samsung_woonkamer
+    action:
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.ziggo
+    
+  - alias: tv_on
+    initial_state: true
+    trigger:
+      - platform: template
+        platform: state
+        entity_id: media_player.samsung_woonkamer
+        from: 'off'
+        to: 'on'
+       # value_template: >
+       #   {{ is_state('media_player.samsung_woonkamer', 'on') and
+       #   is_state('media_player.marantz', 'on') }}
+    action:
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.ziggo
+          
+  - alias: tv_off
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: media_player.samsung_woonkamer
+        from: 'on'
+        to: 'off'
+    action:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.ziggo
+      - delay:
+          seconds: 5
+      - service: media_player.turn_off
+        data:          
+          entity_id: media_player.marantz    
+
+          
+      ####################################################
+      #                                                  #
+      #                CONDITIONAL MEDIA                 #
+      #                                                  #
+      ####################################################
+
+  - alias: conditional_media_playing
+    initial_state: true
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id:
+          ['media_player.samsung_woonkamer', 'media_player.samsung_slaapkamer', 
+          'media_player.playstation_4', 'media_player.cast_tv']
+        to: playing
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.conditional_media
+          option: >
+            {{ trigger.to_state.name }}
+
+  - alias: conditional_media_paused_idle
+    initial_state: true
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id:
+          ['media_player.samsung_woonkamer', 'media_player.samsung_slaapkamer', 
+          'media_player.playstation_4', 'media_player.cast_tv']
+        to:
+          ['off', 'idle', 'standby']
+      - platform: state
+        entity_id:
+          ['media_player.samsung_woonkamer', 'media_player.samsung_slaapkamer', 
+          'media_player.playstation_4', 'media_player.cast_tv']
+        to: paused
+        for:
+          minutes: 10
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.conditional_media
+          option: >
+            {% set media_players = 
+              [states.media_player.samsung_woonkamer, states.media_player.samsung_slaapkamer, 
+               states.media_player.playstation_4, states.media_player.cast_tv] %}
+            {% if media_players | selectattr('state','eq','playing') | list | count == 0 %}
+              {% if media_players | selectattr('state','eq','paused') | list | count == 0 %}
+              Last download
+              {% else %}
+              {{ media_players | selectattr('state','eq','paused') | map(attribute='name') | max }}
+              {% endif %}
+            {% else %}
+            {{ media_players | selectattr('state','eq','playing') | map(attribute='name') | max }}
+            {% endif %}
+
+  - alias: conditional_media_all_off
+    initial_state: true
+    trigger:
+      - platform: template
+        value_template: >
+          {{ is_state('media_player.samsung_woonkamer', 'idle') and
+          is_state('media_player.samsung_slaapkamer', 'idle') and
+          is_state('media_player.playstation_4', 'standby') and
+          is_state('media_player.cast_tv', 'off') 
+          or
+          is_state('media_player.samsung_woonkamer', 'off') and
+          is_state('media_player.samsung_slaapkamer', 'off') and
+          is_state('media_player.cast_tv', 'off') }}
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.conditional_media
+          option: Last download
+
+  - alias: conditional_media_atv1_fix
+    initial_state: true
+    trigger:
+      - platform: template
+        value_template: >
+          {{ is_state('media_player.samsung_woonkamer', 'paused') and 
+          is_state_attr('media_player.samsung_woonkamer', 'media_title', 'No title') }}
+        for:
+          seconds: 5
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.conditional_media
+          option: >
+            {% set media_players = 
+              [states.media_player.samsung_woonkamer, states.media_player.playstation_4, 
+               states.media_player.cast_tv] %}
+            {% if media_players | selectattr('state','eq','playing') | list | count == 0 %}
+              {% if media_players | selectattr('state','eq','paused') | list | count == 0 %}
+              Last download
+              {% elif is_state('media_player.samsung_woonkamer', 'paused') and 
+              is_state_attr('media_player.samsung_woonkamer', 'media_title', 'No title') or
+              is_state('media_player.samsung_slaapkamer', 'paused') and 
+              is_state_attr('media_player.samsung_slaapkamer', 'media_title', 'No title')
+              %}
+              Last download
+              {% else %}
+              {{ media_players | selectattr('state','eq','paused') | map(attribute='name') | max }}
+              {% endif %}
+            {% else %}
+            {{ media_players | selectattr('state','eq','playing') | map(attribute='name') | max }}
+            {% endif %}
+  
+  - alias: conditional_media_atv2_fix
+    initial_state: true
+    trigger:
+      - platform: template
+        value_template: >
+          {{ is_state('media_player.samsung_slaapkamer', 'paused') and 
+          is_state_attr('media_player.samsung_slaapkamer', 'media_title', 'No title') }}
+        for:
+          seconds: 5
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.conditional_media
+          option: >
+            {% set media_players = 
+              [states.media_player.samsung_woonkamer, states.media_player.playstation_4, 
+               states.media_player.cast_tv] %}
+            {% if media_players | selectattr('state','eq','playing') | list | count == 0 %}
+              {% if media_players | selectattr('state','eq','paused') | list | count == 0 %}
+              Last download
+              {% elif is_state('media_player.samsung_woonkamer', 'paused') and 
+              is_state_attr('media_player.samsung_woonkamer', 'media_title', 'No title') or
+              is_state('media_player.samsung_slaapkamer', 'paused') and 
+              is_state_attr('media_player.samsung_slaapkamer', 'media_title', 'No title')
+              %}
+              Last download
+              {% else %}
+              {{ media_players | selectattr('state','eq','paused') | map(attribute='name') | max }}
+              {% endif %}
+            {% else %}
+            {{ media_players | selectattr('state','eq','playing') | map(attribute='name') | max }}
+            {% endif %}
+          

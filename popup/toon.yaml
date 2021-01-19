@@ -1,0 +1,90 @@
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Thermostat
+                hide_header: true
+                deviceID: this
+                style:
+                  .: |
+                    :host .content {
+                      width: calc(385px + 385px);
+                      max-width: 90vw;
+                    }
+                  $: |
+                    .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                      background: none !important;
+                    }
+                card:
+                  type: custom:layout-card
+                  column_num: 2
+                  column_width: [385, 385]
+                  layout: vertical
+                  cards:
+                    - type: entities
+                      title: Stats
+                      class: add_header
+                      show_header_toggle: false
+                      entities:
+                        - type: custom:hui-element
+                          card_type: horizontal-stack
+                          style: &horizontal-style |
+                            #root {
+                              justify-content: space-evenly;
+                              margin: 1.4em -0.7em 0.7em 0;
+                            }
+                          cards:
+                            - type: gauge
+                              min: 0
+                              max: 15000
+                              entity: sensor.current_power_usage
+                              severity:
+                                green: 0
+                                yellow: 5000
+                                red: 10000
+                              unit: W
+                          
+                        - entity: binary_sensor.boiler_heating
+
+                        - entity: binary_sensor.hot_tap_water                          
+
+                        - entity: sensor.energy_cost_today
+
+                        - entity: sensor.gas_cost_today                        
+
+                    - break
+                    
+                    - type: entities
+                      title: Toon
+                      class: add_header
+                      show_header_toggle: false
+                      entities:
+                    
+                        - type: custom:hui-element
+                          card_type: horizontal-stack
+                          style: *horizontal-style
+                          cards:
+                            - type: thermostat
+                              entity: climate.thermostat
+                              
+                        - type: custom:mini-graph-card
+                          color_thresholds:
+                            - color: '#4dd2ff'
+                              value: 10
+                            - color: '#ffa31a'
+                              value: 15
+                            - color: '#ff1a1a'
+                              value: 20
+                          entities:
+                            - sensor.toon_r_temperatuur
+                            - sensor.buienradar_ground_temperature
+                          align_state: left
+                          group: false
+                          points_per_hour: 1
+                          line_width: 3
+                          hour24: true
+                          hours_to_show: 168
+                          show:
+                            {fill: fade, icon: false, name: false, state: false, 
+                            name_adaptive_color: true, labels: hover, legend: false}
+                          tap_action:
+                            action: none

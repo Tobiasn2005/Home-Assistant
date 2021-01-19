@@ -1,0 +1,37 @@
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Keuken
+                deviceID: this
+                card:
+                  type: vertical-stack
+                  cards:
+                    - type: custom:mini-media-player
+                      entity: media_player.keuken
+                      source: icon
+                      artwork: cover
+                      hide:
+                        power: true
+                        icon: true
+                      speaker_group:
+                        platform: sonos
+                        show_group_count: true
+                        entities:
+                          - entity_id: media_player.keuken
+                            name: Keuken
+                      shortcuts:
+                        columns: 4
+                        buttons:
+                          - icon: mdi:speaker-wireless          
+                            type: playlist
+                            id: spotify:playlist:7BsRfcY90dc4OPxmyuhPYI
+                          - icon: mdi:radio
+                            type: source
+                            id: "538 (Main)"
+                          - icon: mdi:pine-tree
+                            type: source                      
+                            id: "Sky Radio 101 FM"
+                style:
+                  '--ha-card-border-radius': 0vw 0vw 0.8vw 0.8vw
+                  border-radius: 0.8vw
+                  opacity: 0.9

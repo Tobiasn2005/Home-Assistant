@@ -1,0 +1,28 @@
+sensor.tesla_plugged_in:
+  friendly_name: Plugged in
+sensor.tesla_rated_range:
+  friendly_name: Range
+sensor.tesla_charger_power:
+  friendly_name: Power
+sensor.tesla_battery_level:
+  friendly_name: Battery
+light.erker_bank:
+  friendly_name: Couch
+light.wasruimte:
+  friendly_name: Laundry
+sensor.iphone_van_tobias_steps:
+  friendly_name: Tobias steps
+light.wled:
+  friendly_name: Wled
+light.woonkamer:
+  friendly_name: Living
+light.keuken:
+  friendly_name: Kitchen
+light.eetkamer:
+  friendly_name: Table
+light.buiten:
+  friendly_name: Garden
+light.gang:
+  friendly_name: Hall
+light.erker:
+  friendly_name: Bay couch

@@ -1,0 +1,31 @@
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Washer
+                hide_header: true
+                deviceID: this
+                style:
+                  .: |
+                    :host .content {
+                      width: 385px;
+                      max-width: 90vw;
+                    }
+                  $: |
+                    .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                      background: none !important;
+                    }
+                card:
+                  type: custom:layout-card
+                  column_num: 1
+                  column_width: 385
+                  layout: vertical
+                  cards:
+                    - type: entities
+                      title: Washer
+                      class: add_header
+                      show_header_toggle: false
+                      entities:
+
+                        - entity: sensor.wasmachine_washer_job_state
+
+                        - entity: sensor.wasmachine_washer_completion_time

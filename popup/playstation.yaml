@@ -1,0 +1,34 @@
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Playstation 4
+                deviceID: this
+                card:
+                  type: custom:stack-in-card
+                  cards:
+                    #- entity: media_player.playstation_4
+                    #  type: media-control
+
+                    - entity: media_player.playstation_4
+                      type: custom:mini-media-player
+                      artwork: full-cover
+                      icon: mdi:gamepad
+                      name: Spel
+                      group: true
+                      scale: 0.99
+                      hide:
+                        volume: true
+                        controls: true
+                        power: true
+                        info: false
+
+                    - type: custom:calendar-card
+                      title: Upoming releases
+                      disableLinks: true
+                      numberOfDays: 730
+                      hidePastEvents: true
+                      hideTime: true
+                      dateTopFormat: ' '
+                      dateBottomFormat: DD MMM Y
+                      entities: [calendar.spel]
+

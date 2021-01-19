@@ -1,0 +1,108 @@
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Tesla
+                hide_header: true
+                deviceID: this
+                style:
+                  .: |
+                    :host .content {
+                      width: calc(385px + 385px + 385px);
+                      max-width: 90vw;
+                    }
+                  $: |
+                    .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                      background: none !important;
+                    }
+                card:
+                  type: custom:layout-card
+                  column_num: 3
+                  column_width: [385, 385, 385]
+                  layout: vertical
+                  cards:
+                    - type: entities
+                      title: Battery and Range
+                      class: add_header
+                      state_color: true
+                      show_header_toggle: false
+                      entities:
+                        - entity: binary_sensor.falkor_charger_sensor
+                          name: Charger
+                        - entity: sensor.falkor_charging_rate_sensor
+                          name: Charging Rate
+                        - type: 'custom:bar-card'
+                          width: 70%
+                          entities:
+                            - name: Battery
+                              entity: sensor.falkor_battery_sensor
+                            - name: Range
+                              entity: sensor.falkor_range_sensor
+                              max: 490
+                          positions:
+                            icon: 'off'
+                            indicator: inside
+                            name: outside
+                        - type: custom:mini-graph-card
+                          name: Battery & Range
+                          points_per_hour: 2
+                          icon: 'mdi:battery'
+                          entities:
+                            - entity: sensor.falkor_battery_sensor
+                              name: Battery
+                            - entity: sensor.falkor_range_sensor
+                              name: Range
+                                
+                    - break            
+
+                    - type: entities
+                      title: HVAC
+                      class: add_header
+                      show_header_toggle: false
+                      entities:
+                        - type: 'custom:simple-thermostat'
+                          entity: climate.falkor_hvac_climate_system
+                         # name: Climate
+                          control:
+                            hvac:
+                              'heat_cool':
+                                name: "Heat/Cool"
+                            preset:
+                              'normal': 
+                                name: 'Normal'
+                              'defrost':
+                                name: 'Defrost'
+                        - type: custom:mini-graph-card
+                          name: Temperature
+                          points_per_hour: 2
+                          icon: 'mdi:thermometer'
+                          entities:
+                            - entity: sensor.falkor_temperature_sensor_inside
+                              name: Inside
+                            - entity: sensor.falkor_temperature_sensor_outside
+                              name: Outside
+                          line_color: blue
+
+                    - break
+                    
+                    - type: entities
+                      title: Locks
+                      entities:
+                        - entity: lock.falkor_door_lock
+                          name: Doors
+                        - entity: lock.falkor_charger_door_lock
+                          name: Charger Door
+                        - entity: lock.falkor_frunk_lock
+                          name: Frunk
+                        - entity: lock.falkor_trunk_lock
+                          name: Trunk
+                    - type: entities
+                      title: Switches
+                      entities:
+                        - entity: switch.falkor_charger_switch
+                          name: Charger
+                        - entity: switch.falkor_maxrange_switch
+                          name: Max Range
+                        - entity: switch.falkor_sentry_mode_switch
+                          name: Sentry Mode
+                        - entity: switch.falkor_update_switch
+                          name: Data Polling    

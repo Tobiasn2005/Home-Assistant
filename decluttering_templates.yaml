@@ -1,0 +1,265 @@
+  floorplan_light_image:
+    element:
+      entity: '[[entity]]'
+      #double_tap_action:
+      hold_action:
+        action: call-service
+        service: browser_mod.popup
+        service_data:
+          card:
+            type: 'custom:vertical-stack-in-card'
+            cards:
+              - type: entities
+                entities:
+                  - entity: '[[entity]]'
+                    secondary_info: last-changed
+                style:
+                  z-index: 5    
+              - type: 'custom:layout-card'
+                layout: horizontal
+                column_num: 2
+                max_width:
+                  - 60%
+                  - 40%                
+                cards:
+                  - type: 'custom:layout-card'
+                    column_height: 1
+                    layout: vertical
+                    cards:
+                      - brightness: false
+                        color_picker: false
+                        effects_list: false
+                        entity: '[[entity]]'
+                        full_width_sliders: true
+                        header: false
+                        persist_features: true
+                        show_slider_percent: false
+                        smooth_color_wheel: true
+                        type: 'custom:light-entity-card'
+                        style: |
+                            ha-card {
+                              box-shadow: none !important;
+                            }
+                      - brightness: false
+                        color_temp: false
+                        entity: '[[entity]]'
+                        full_width_sliders: true
+                        header: false
+                        persist_features: true
+                        show_slider_percent: false
+                        smooth_color_wheel: true
+                        type: 'custom:light-entity-card'
+                        style: |
+                            ha-card {
+                              box-shadow: none !important;
+                            }
+                            
+                  - type: entities
+                    entities:
+                      - type: 'custom:light-slider-card'
+                        entity: '[[entity]]'
+                        color_temp: true
+                        header: false
+                        persist_features: true
+                    show_header_toggle: false
+                    style: |
+                        :host{
+                          height: 100%;
+                          z-index: 0;  
+                        }
+                        ha-card {
+                          box-shadow: none !important;
+                        }                        
+          deviceID:
+            - this
+          style:
+            '--ha-card-border-radius': 0vw 0vw 0.8vw 0.8vw
+            border-radius: 0.8vw
+            opacity: 0.9
+          title: '[[name]]'
+      image: /local/transparent.png
+      style:
+        height: '[[height]]'
+        left: '[[left]]'
+        top: '[[top]]'
+        width: '[[width]]'
+   ###     border: 1px solid green
+      tap_action:
+        action: call-service
+        service: homeassistant.toggle
+        service_data:
+            entity_id: '[[entity]]'
+      type: image
+
+
+  floorplan_light_icon:
+    element:
+      entity: '[[entity]]'
+      #double_tap_action:
+      hold_action:
+        action: call-service
+        service: browser_mod.popup
+        service_data:
+          card:
+            type: 'custom:vertical-stack-in-card'
+            cards:
+              - type: entities
+                entities:
+                  - entity: '[[entity]]'
+                    secondary_info: last-changed
+                style:
+                  z-index: 5    
+              - type: 'custom:layout-card'
+                layout: horizontal
+                column_num: 2
+                max_width:
+                  - 60%
+                  - 40%                
+                cards:
+                  - type: 'custom:layout-card'
+                    column_height: 1
+                    layout: vertical
+                    cards:
+                      - brightness: false
+                        color_picker: false
+                        effects_list: false
+                        entity: '[[entity]]'
+                        full_width_sliders: true
+                        header: false
+                        persist_features: true
+                        show_slider_percent: false
+                        smooth_color_wheel: true
+                        type: 'custom:light-entity-card'
+                        style: |
+                            ha-card {
+                              box-shadow: none !important;
+                            }
+                      - brightness: false
+                        color_temp: false
+                        entity: '[[entity]]'
+                        full_width_sliders: true
+                        header: false
+                        persist_features: true
+                        show_slider_percent: false
+                        smooth_color_wheel: true
+                        type: 'custom:light-entity-card'
+                        style: |
+                            ha-card {
+                              box-shadow: none !important;
+                            }
+                            
+                  - type: entities
+                    entities:
+                      - type: 'custom:light-slider-card'
+                        entity: '[[entity]]'
+                        color_temp: true
+                        header: false
+                        persist_features: true
+                    show_header_toggle: false
+                    style: |
+                        :host{
+                          height: 100%;
+                          z-index: 0;  
+                        }
+                        ha-card {
+                          box-shadow: none !important;
+                        }                        
+          deviceID:
+            - this
+          style:
+            '--ha-card-border-radius': 0vw 0vw 0.8vw 0.8vw
+            border-radius: 0.8vw
+            opacity: 0.9
+          title: '[[name]]'
+      icon: 'mdi:wall-sconce-flat'
+      style:
+        '--iron-icon-height': 2vw
+        '--iron-icon-width': 2vw
+        '--iron-icon-stroke-color': '#969696'
+        '--paper-item-icon-active-color': '#000000'
+        '--paper-item-icon-color': darkgrey
+        align-items: center
+        background-color: "rgba(255, 255, 255, 0.1)"        
+        border-radius: 50%        
+        box-shadow: '0px 0px 28px 0px rgba(0,0,0,0.39)'
+        display: flex
+        height: 2vw
+        justify-content: center
+        left: '[[left]]'
+        margin-left: '-1.5vw'
+        margin-top: '-1.5vw'
+        top: '[[top]]'
+        transform: scale(1.2)        
+        width: 2vw
+      tap_action:
+        action: toggle
+      type: state-icon
+
+  floorplan_media_player:
+    element:
+      entity: '[[entity]]'
+      #double_tap_action:
+      hold_action:
+        action: call-service
+        service: browser_mod.popup
+        service_data:
+          card:
+            type: vertical-stack
+            cards:
+              - type: custom:mini-media-player
+                entity: '[[entity]]'
+                source: icon
+                artwork: cover
+                hide:
+                  power: true
+                  icon: true
+                speaker_group:
+                  platform: sonos
+                  show_group_count: true
+                  entities:
+                    - entity_id: '[[group1]]'
+                      name: '[[group1Name]]'
+                shortcuts:         ### You can edit these to any playlist of source you wish
+                  columns: 4 # Max buttons per row
+                  buttons:
+                    - icon: mdi:speaker-wireless          
+                      type: playlist
+                      id: spotify:playlist:7BsRfcY90dc4OPxmyuhPYI
+                    - icon: mdi:radio
+                      type: source
+                      id: "538 (Main)"
+                    - icon: mdi:pine-tree
+                      type: source                      
+                      id: "Sky Radio 101 FM"
+          deviceID:
+            - this
+          style:
+            '--ha-card-border-radius': 0vw 0vw 0.8vw 0.8vw
+            border-radius: 0.8vw
+            opacity: 0.9
+          title: '[[name]]'
+      icon: mdi:speaker
+      style:
+        '--iron-icon-height': 2vw
+        '--iron-icon-width': 2vw
+        '--iron-icon-stroke-color': '#969696'
+        '--paper-item-icon-active-color': '#000000'
+        '--paper-item-icon-color': darkgrey
+        align-items: center
+        background-color: "rgba(255, 255, 255, 0.2)"
+        border-radius: 50%
+        box-shadow: '0px 0px 28px 0px rgba(0,0,0,0.39)'
+        display: flex
+        height: 2.5vw
+        justify-content: center
+        left: '[[left]]'
+        margin-left: '-1.5vw'
+        margin-top: '-1.5vw'
+        top: '[[top]]'
+        width: 2.5vw
+      tap_action:
+        action: call-service
+        service: media_player.media_play_pause
+        service_data:
+          entity_id: '[[entity]]'
+      type: state-icon

@@ -1,0 +1,462 @@
+sensor:
+
+    ####################################################
+    #                                                  #
+    #                     SENSORS                      #
+    #                                                  #
+    ####################################################
+
+  - platform: mqtt
+    name: tesla_battery_level
+    state_topic: "teslamate/cars/1/battery_level"
+    unit_of_measurement: "%"
+    icon: mdi:battery-80
+  
+  - platform: mqtt
+    name: tesla_charge_energy_added
+    state_topic: "teslamate/cars/1/charge_energy_added"
+    unit_of_measurement: "kWh"
+    icon: mdi:battery-80
+  
+  - platform: mqtt
+    name: tesla_charge_limit
+    state_topic: "teslamate/cars/1/charge_limit_soc"
+    unit_of_measurement: "%"
+    icon: mdi:battery-80
+  
+  - platform: mqtt
+    name: tesla_charge_port_door_open
+    state_topic: "teslamate/cars/1/charge_port_door_open"
+    icon: mdi:car-door
+  
+  - platform: mqtt
+    name: tesla_charger_actual_current
+    state_topic: "teslamate/cars/1/charger_actual_current"
+    unit_of_measurement: "A"
+    icon: mdi:battery-80
+  
+  - platform: mqtt
+    name: tesla_charger_phases
+    state_topic: "teslamate/cars/1/charger_phases"
+    icon: mdi:power-plug
+  
+  - platform: mqtt
+    name: tesla_charger_power
+    state_topic: "teslamate/cars/1/charger_power"
+    unit_of_measurement: "W"
+    icon: mdi:power-plug
+  
+  - platform: mqtt
+    name: tesla_charger_voltage
+    state_topic: "teslamate/cars/1/charger_voltage"
+    unit_of_measurement: "V"
+    icon: mdi:gauge
+  
+  - platform: mqtt
+    name: tesla_display_name
+    state_topic: "teslamate/cars/1/display_name"
+    icon: mdi:car
+  
+  - platform: mqtt
+    name: tesla_estimated_range
+    state_topic: "teslamate/cars/1/est_battery_range_km"
+    unit_of_measurement: "km"
+    icon: mdi:map-marker-path
+  
+  - platform: mqtt
+    name: tesla_healthy
+    state_topic: "teslamate/cars/1/healthy"
+    icon: mdi:car-connected
+  
+  - platform: mqtt
+    name: tesla_ideal_range
+    state_topic: "teslamate/cars/1/ideal_battery_range_km"
+    unit_of_measurement: "km"
+    icon: mdi:map-marker-path
+  
+  - platform: mqtt
+    name: tesla_inside_temp
+    state_topic: "teslamate/cars/1/inside_temp"
+    unit_of_measurement:  °C
+    icon: mdi:thermometer-lines
+  
+  - platform: mqtt
+    name: tesla_latitude
+    state_topic: "teslamate/cars/1/latitude"
+    icon: mdi:crosshairs-gps
+  
+  - platform: mqtt
+    name: tesla_locked
+    state_topic: "teslamate/cars/1/locked"
+    icon: mdi:lock
+    
+  - platform: mqtt
+    name: tesla_charge_port_door_locked
+    state_topic: "teslamate/cars/1/charge_port_door_open"
+    icon: mdi:lock  
+  
+  - platform: mqtt
+    name: tesla_longitude
+    state_topic: "teslamate/cars/1/longitude"
+    icon: mdi:crosshairs-gps
+  
+  - platform: mqtt
+    name: tesla_odometer
+    state_topic: "teslamate/cars/1/odometer"
+    unit_of_measurement: "km"
+    icon: mdi:gauge
+  
+  - platform: mqtt
+    name: tesla_outside_temp
+    state_topic: "teslamate/cars/1/outside_temp"
+    unit_of_measurement: °C
+    icon: mdi:thermometer-lines
+  
+  - platform: template
+    sensors:
+      tesla_park_brake:
+        friendly_name: Park Brake
+        value_template: >-
+          {% if is_state('sensor.tesla_shift_state', 'P') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+  
+  - platform: mqtt
+    name: tesla_plugged_in
+    state_topic: "teslamate/cars/1/plugged_in"
+    icon: mdi:power-plug
+  
+  - platform: mqtt
+    name: tesla_rated_range
+    state_topic: "teslamate/cars/1/rated_battery_range_km"
+    unit_of_measurement: "km"
+    icon: mdi:map-marker-path
+  
+  - platform: mqtt
+    name: tesla_scheduled_charging_start
+    state_topic: "teslamate/cars/1/scheduled_charging_start_time"
+    icon: mdi:clock-outline
+  
+  - platform: mqtt
+    name: tesla_sentry_mode
+    state_topic: "teslamate/cars/1/sentry_mode"
+    icon: mdi:cctv
+  
+  - platform: mqtt
+    name: tesla_shift_state
+    state_topic: "teslamate/cars/1/shift_state"
+    icon: mdi:car-shift-pattern
+  
+  - platform: mqtt
+    name: tesla_speed
+    state_topic: "teslamate/cars/1/speed"
+    icon: mdi:speedometer
+  
+  - platform: mqtt
+    name: tesla_state
+    state_topic: "teslamate/cars/1/state"
+    icon: mdi:car-connected
+  
+  - platform: mqtt
+    name: tesla_time_to_full_charge
+    state_topic: "teslamate/cars/1/time_to_full_charge"
+    icon: mdi:clock-outline
+  
+  - platform: mqtt
+    name: tesla_windows_open
+    state_topic: "teslamate/cars/1/windows_open"
+    icon: mdi:car-door
+  
+  - platform: mqtt
+    name: tesla_version
+    state_topic: "teslamate/cars/1/version"
+    icon: mdi:alphabetical
+  
+  - platform: mqtt
+    name: tesla_update_available
+    state_topic: "teslamate/cars/1/update_available"
+    icon: mdi:gift
+    
+  - platform: mqtt
+    name: Stappen
+    state_topic: "Stappen/winner"
+    icon: mdi:walk
+    
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'date_time_utc'
+      - 'date_time_iso'
+      - 'time_date'
+      - 'time_utc'
+      - 'beat'
+        
+  - platform: buienradar
+    name: 'buienradar'
+    latitude: !secret latitude
+    longitude: !secret longitude
+    timeframe: 120
+    monitored_conditions:
+      - stationname
+      - barometerfc
+      - barometerfcname
+      - conditioncode
+      - condition
+      - conditiondetailed
+      - conditionexact
+      - conditionexact_1d
+      - symbol
+      - feeltemperature
+      - temperature
+      - groundtemperature
+      - windspeed
+      - windforce
+      - windgust
+      - rain_1d
+      - windspeed_1d
+      - rainchance_1d
+      - precipitation
+      - irradiance
+      - precipitation_forecast_average
+      - precipitation_forecast_total
+      - rainlast24hour
+      - rainlasthour
+        
+  - platform: plex_recently_added
+    name: Recently Added Movies
+    token: !secret Plex_token
+    host: 192.168.1.52
+    port: 32400
+    section_types:
+      - movie
+      
+  - platform: plex_recently_added
+    name: Recently Added TV
+    token: !secret Plex_token
+    host: 192.168.1.52
+    port: 32400
+    section_types:
+      - show
+      
+  - platform: plex_recently_added
+    name: Recently Added
+    token: !secret Plex_token
+    host: 192.168.1.52
+    port: 32400   
+      
+  - platform: spotcast
+    name: chromecast devices
+    
+  - platform: template
+    sensors:
+      ## Calculates daylight brightness out of 100%
+      sunlight_pct:
+        value_template: >-
+          {%- set elevation = state_attr('sun.sun','elevation') | float %}
+          {%- set cloud_coverage = states('sensor.openweathermap_cloud_coverage') | float %}
+          {%- set cloud_factor = (1 - (0.75 * ( cloud_coverage / 100) ** 3 )) %}
+          {%- set min_elevation = -6 %}
+          {%- set max_elevation = 90 %}
+          {%- set adjusted_elevation = elevation - min_elevation %}
+          {%- set adjusted_elevation = [adjusted_elevation,0] | max %}
+          {%- set adjusted_elevation = [adjusted_elevation,max_elevation - min_elevation] | min %}
+          {%- set adjusted_elevation = adjusted_elevation / (max_elevation - min_elevation) %}
+          {%- set adjusted_elevation = adjusted_elevation %}
+          {%- set adjusted_elevation = adjusted_elevation * 100 %}
+          {%- set brightness = adjusted_elevation * cloud_factor %}
+          {{ brightness | round }}
+        unit_of_measurement: '%'
+        device_class: 'illuminance'
+  
+      ## Daylight brightness converted to opacity for CSS
+      sunlight_opacity:
+        value_template: >-
+          {%- set sunpct = states('sensor.sunlight_pct') | float %}
+          {%- set opacity = sunpct / 100 | float %}
+          {{ opacity }}
+        
+      dayoftheweek:
+        value_template: "{{ now().strftime('%A') }}"
+  
+      month:
+        value_template: "{{ now().strftime('%B') }}"
+  
+      dateofthemonth:
+        value_template: >
+          {% set suffix = ['st', 'nd', 'rd'] %}
+          {% set day = now().day %}
+          {% set index = 3 if day // 10 == 1 or day % 10 == 0 else (day % 10) - 1 %}
+          {{ day~'th' if index > 2 else day~suffix[index] }}
+
+      date_string:
+        friendly_name: "Full Date"
+        value_template: "{{ states('sensor.dayoftheweek') }}, {{ states('sensor.dateofthemonth') }} of {{ states('sensor.month') }} {{ now().year }}"
+    
+      placeholder:
+        value_template: ' '    
+
+      sonos_keuken_volume:
+        value_template: >-
+          {%- set volume = state_attr('media_player.keuken', 'volume_level') %}
+          {%- set sonos_keuken_volume = volume * 100 %}
+          {{ sonos_keuken_volume | round(0) }}
+        friendly_name: Sonos Keuken Volume  
+
+      sonos_zolder_volume:
+        value_template: >-
+          {%- set volume = state_attr('media_player.zolder', 'volume_level') %}
+          {%- set sonos_zolder_volume = volume * 100 %}
+          {{ sonos_zolder_volume | round(0) }}
+        friendly_name: Sonos Zolder Volume    
+    
+      covid_today:
+        value_template: '{{ state_attr("sensor.covid","change")|int }}'
+        friendly_name: 'Covid today'   
+    
+      christmas_time:
+        value_template: >
+          {% set today = states('sensor.date').split('-') %}
+          {% set month = today[1]|int %}
+          {% set day = today[2]|int %}
+          {{ month == 12 and day >= 5 or
+             month == 1 and day <= 6 }}  
+
+      new_years:
+        value_template: >
+          {% set today = states('sensor.date').split('-') %}
+          {% set month = today[1]|int %}
+          {% set day = today[2]|int %}
+          {{ month == 12 and day >= 31 or
+             month == 1 and day <= 1 }}    
+
+      hass_version:
+        icon_template: mdi:home-assistant
+        friendly_name_template: >
+          Installed {{ states('sensor.hass_version_installed') }}
+        value_template: >
+          {{ 'Latest' if states('sensor.hass_version_installed') == 
+          states('sensor.hass_release_notes_rc') else states('sensor.hass_release_notes_rc') }}
+          
+      hass_uptime:
+        friendly_name: Last restart
+        icon_template: mdi:update
+        value_template: >
+          {% set uptime = (as_timestamp(now()) - as_timestamp(states('sensor.uptime'))) | float / 60 %}
+          {% if uptime < 1 %} {{ (uptime * 60) | int }} seconds ago
+          {% elif uptime | int == 1 %} 1 minute ago
+          {% elif uptime | int > 1 %}
+            {% if uptime | int < 60 %} {{ uptime | int }} minutes ago
+            {% elif uptime | int / 60 == 24 %} {{ (uptime | int / 60 / 24) | int }} day ago
+            {% elif uptime | int / 60 >= 24 %} {{ (uptime | int / 60 / 24) | int }} days ago
+            {% elif uptime | int >= 60 and uptime | int < 120 %} {{ (uptime | int / 60) | int }} an hour ago
+            {% elif uptime | int >= 120 %} {{ (uptime | int / 60) | int }} hours ago
+            {% endif %}
+          {% endif %}          
+
+      nas_net_down:
+        value_template: ' '
+        icon_template: mdi:arrow-down-bold
+        friendly_name_template: >
+          {% set down = states('sensor.synology_network_down') | float %}
+          {% if down < 1000 %} {{ down | round(0) }} kb/s
+          {% elif down >= 1000 %} {{ ((down / 1000) | round(2) | string).rstrip('.0') }} Mb/s
+          {% endif %}
+
+      nas_net_up:
+        value_template: ' '
+        icon_template: mdi:arrow-up-bold
+        friendly_name_template: >
+          {% set up = states('sensor.synology_network_up') | float %}
+          {% if up < 1000 %} {{ up | round(0) }} kb/s
+          {% elif up >= 1000 %} {{ ((up / 1000) | round(2) | string).rstrip('.0') }} Mb/s
+          {% endif %}
+
+      nas_status:
+        friendly_name: System health
+        icon_template: custom:synology-nas
+        value_template: >
+          {% set entity_id = 'sensor.ds1512_tobias_volume_1_status' %}
+          {% if is_state(entity_id, 'normal') %} Good
+          {% elif is_state(entity_id, 'background') %} Checking
+          {% else %} {{ states(entity_id) }}
+          {% endif %}      
+  
+  - platform: version
+    name: hass_version_installed
+  
+  - platform: version
+    name: hass_version_latest
+  
+  - platform: filesize
+    file_paths:
+      - /config/home-assistant_v2.db
+      - /config/home-assistant.log
+  
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /
+      - type: memory_use_percent
+      - type: processor_use
+      - type: last_boot
+  
+  - platform: uptime
+  
+  - platform: rest
+    name: hass_release_notes
+    resource: https://api.github.com/repos/home-assistant/core/releases/latest
+    value_template: '{{ value_json.name }}'
+    json_attributes: [body]
+    scan_interval: 21600
+  
+  - platform: rest
+    name: hass_release_notes_rc
+    resource: https://api.github.com/repos/home-assistant/core/releases?per_page=1
+    value_template: '{{ value_json[0].name }}'
+    json_attributes: [body]
+    scan_interval: 21600
+    
+  - platform: statistics
+    name: covid
+    entity_id: sensor.netherlands_coronavirus_confirmed
+    sampling_size: 20000000
+    max_age:
+      hours: 43
+
+    
+binary_sensor:
+
+    ####################################################
+    #                                                  #
+    #                      BINARY                      #
+    #                                                  #
+    ####################################################
+
+  - platform: mqtt
+    name: Charger
+    state_topic: "teslamate/cars/1/plugged_in"
+    payload_on: "ON"
+    payload_off: "OFF"
+    
+  - platform: template
+    sensors:
+      playstation_4:
+        icon_template: mdi:sony-playstation
+        value_template: >
+          {% set entity_id = 'media_player.playstation_4' %}
+          {{ not (is_state(entity_id, 'off') or is_state(entity_id, 'standby') 
+          or is_state(entity_id, 'unknown')) }}  
+          
+      sonos_keuken_mute_check:
+        icon_template: mdi:speaker
+        value_template: >
+          {{ not is_state_attr('media_player.keuken', 'is_volume_muted', false) }}
+
+      sonos_zolder_mute_check:
+        icon_template: mdi:speaker
+        value_template: >
+          {{ not is_state_attr('media_player.zolder', 'is_volume_muted', false) }}

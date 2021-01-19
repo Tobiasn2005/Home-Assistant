@@ -1,0 +1,74 @@
+- name: Avond
+  entities:
+    light.keuken:
+      min_mireds: 153
+      max_mireds: 500
+      brightness: 78
+      color_temp: 443
+      is_hue_group: true
+      friendly_name: Keuken
+      supported_features: 43
+      state: 'on'
+    light.woonkamer:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 78
+      color_temp: 443
+      is_hue_group: true
+      friendly_name: Woonkamer
+      supported_features: 63
+      state: 'on'
+  icon: mdi:clock
+  id: 5969fb30c0084bdfa316afe4769dc13b
+- name: Dim
+  entities:
+    light.keuken:
+      min_mireds: 153
+      max_mireds: 500
+      brightness: 50
+      color_temp: 443
+      is_hue_group: true
+      friendly_name: Keuken
+      supported_features: 43
+      state: 'on'
+    light.woonkamer:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 50
+      color_temp: 443
+      is_hue_group: true
+      friendly_name: Woonkamer
+      supported_features: 63
+      state: 'on'
+  icon: mdi:clock
+  id: 7481176b8ca548979eeb9b873a84ec51
+- id: '1610985684977'
+  name: Sun below horizon
+  entities:
+    light.keuken:
+      min_mireds: 153
+      max_mireds: 500
+      brightness: 58
+      color_temp: 443
+      is_hue_group: true
+      friendly_name: Kitchen
+      supported_features: 43
+      state: 'on'
+    light.woonkamer:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 129
+      color_temp: 443
+      is_hue_group: true
+      friendly_name: Living
+      supported_features: 63
+      state: 'on'
