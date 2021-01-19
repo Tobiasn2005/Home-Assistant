@@ -4,7 +4,7 @@
 
 ## Features
 
-* Dynamic 3D Floorplan: Brightness mapped individual lights with custom popup controller.
+* Dynamic 3D Floorplan: brightness mapped individual lights with custom popup controller.
 * Dynamic floorplan view, adjusts brightness based on calculated brightness of the sun.
 * Less cluttered interface displaying [more information](https://github.com/thomasloven/hass-browser_mod#popup) on a [long press](https://www.home-assistant.io/lovelace/picture-elements/#hold_action), inspired by [Mattias Persson](https://github.com/matt8707/hass-config).
 * Custom rain card to display predicted rain in the next 2 hours - [seperate repo here](https://github.com/lukevink/home-assistant-buienradar-forecast-card)
@@ -13,6 +13,7 @@
 
 * A different take on designing a [Lovelace UI](https://www.home-assistant.io/lovelace/) using a [Picture Elements Card](https://www.home-assistant.io/lovelace/picture-elements/) in [panel mode](https://www.home-assistant.io/lovelace/dashboards-and-views#panel)
 * Using a [swiper card](https://community.home-assistant.io/t/lovelace-swiper-card/72447) to swipe between ground and first floor
+* Camera view that pops up when motion is detected on the driveway.
 
 ![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/floorplan.gif)
 
@@ -31,9 +32,10 @@
 
 ## Media
 
-Conditionally displaying media player controls based on last active device such as [Apple TV](https://www.home-assistant.io/integrations/apple_tv/), [Playstation 4](https://www.home-assistant.io/integrations/ps4/), [Google Nest Mini](https://www.home-assistant.io/integrations/cast/). If nothing is active for 15 minutes then a poster of last downloaded movie/episode is shown ([Radarr](https://github.com/Radarr/Radarr)/[Sonarr](https://github.com/Sonarr/Sonarr)). Swipe to reveal other than last active media players.
+Conditionally displaying media player controls based on last active device such as [Playstation 4](https://www.home-assistant.io/integrations/ps4/) and [Google Nest Mini](https://www.home-assistant.io/integrations/cast/). If nothing is active for 15 minutes then a poster of last downloaded movie/episode is shown. Swipe to reveal other than last active media players.
+When PLEX is playing a full size image of the cover art is displayed.
 
-![media](https://raw.githubusercontent.com/matt8707/hass-config/master/www/img/media.gif)
+![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/media.gif)
 
 ## The sidebar
 
