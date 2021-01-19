@@ -67,7 +67,7 @@ For more on this card, check out [this repo](https://github.com/lukevink/home-as
 
 ![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/weather.gif)
 
-My cummunity [Home Assistant topic](https://community.home-assistant.io/t/my-throw-at-a-lovelace-ui/270438)
+My community [Home Assistant topic](https://community.home-assistant.io/t/my-throw-at-a-lovelace-ui/270438)
 
 ***
 
