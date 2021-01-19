@@ -64,7 +64,7 @@ For more on this card, check out [this repo](https://github.com/lukevink/home-as
 
 ***
 
-The guys and projects I took my inspiration from are from Mattias Persson and Luke Vink (great thanks to them!)
+The guys and projects I took my inspiration from are both Mattias Persson and Luke Vink (great thanks to them!)
 
 **Mattias Persson Topic**  
 [https://community.home-assistant.io/t/a-different-take-on-designing-a-lovelace-ui/162594](https://community.home-assistant.io/t/a-different-take-on-designing-a-lovelace-ui/162594)
