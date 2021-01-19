@@ -30,10 +30,14 @@
 
 ![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/devices.gif)
 
+Conditionally displaying media player controls based on last active device such as [Playstation 4](https://www.home-assistant.io/integrations/ps4/) and [Google Nest Mini](https://www.home-assistant.io/integrations/cast/). If nothing is active for 15 minutes then a poster of last downloaded movie/episode is shown. Swipe to reveal other than last active media players.
+
 ## Media
 
-Conditionally displaying media player controls based on last active device such as [Playstation 4](https://www.home-assistant.io/integrations/ps4/) and [Google Nest Mini](https://www.home-assistant.io/integrations/cast/). If nothing is active for 15 minutes then a poster of last downloaded movie/episode is shown. Swipe to reveal other than last active media players.
-When PLEX is playing a full size image of the cover art is displayed.
+* Spotify album art, ability to choose favorite playlists and playback devices
+* Other media control of two Sonos Play Ones. A Marantz SR7007 receiver and the Samsung TV in the living room.
+* When PLEX is playing a full size image of the cover art is displayed instead.
+* During PLEX playback the last added movies and Series are displayed as well.
 
 ![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/media.gif)
 
