@@ -21,8 +21,6 @@
 * Camera view that pops up when motion is detected on the driveway.
 * Tap on the waste bin to see future dates for waste collection.
 
-![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/floorplan.gif)
-
 ![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/floorplan1.gif)
 
 ![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/cam&lights.gif)
