@@ -19,14 +19,20 @@
 * A different take on designing a [Lovelace UI](https://www.home-assistant.io/lovelace/) using a [Picture Elements Card](https://www.home-assistant.io/lovelace/picture-elements/) in [panel mode](https://www.home-assistant.io/lovelace/dashboards-and-views#panel)
 * Using a [swiper card](https://community.home-assistant.io/t/lovelace-swiper-card/72447) to swipe between ground and first floor
 * Camera view that pops up when motion is detected on the driveway.
+* Tap on the waste bin to see future dates for waste collection.
 
 ![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/floorplan.gif)
 
+![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/floorplan1.gif)
+
 ![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/cam&lights.gif)
 
-## Full integration with Tesla Model 3 with history stats and HVAC controls:
+## Full integration with Tesla Model 3 with history stats, seat heating and HVAC controls:
 
-![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/tesla.gif)
+* Ability to control seat heating and HVAC temperature from HA.
+* Updates in the car and from within the Tesla app are visible in HA as well.
+
+![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/tesla1.gif)
 
 ## Devices with animated custom icons and Dutch Covid-19 stats. In the footer two buttons for updates and HA info.
 
@@ -56,6 +62,7 @@ A [Picture Elements Card](https://www.home-assistant.io/lovelace/picture-element
 * Christmas decoration when its time :-)
 * See household members presence and more-info when pressed
 * Ability to deserve a crown based on your amount of steps during the day
+* Popup in the side bar a day before the waste is collected showing the waste type
 * Other conditional alerts
 
 ![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/person.gif)
