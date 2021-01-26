@@ -2,6 +2,11 @@
 
 [Supervised Home Assistant](https://home-assistant.io/) in a VirtualBox environment. My use case is a wall mounted Microsoft Surface Pro4 displaying Home Assistant in Full screen Chrome.
 
+## Node-Red
+
+* Using Node-Red to check and control the input settings on my receiver and tv and control a Broadlink remote to start different activities to watch TV, Netflix, Disney+ or Plex for example.
+* Also using Node-Red to collect the steps counter from the HA companion app on our phones and compare the values to declare the winner of the day! (see below)
+
 ## Features
 
 * Dynamic 3D Floorplan: brightness mapped individual lights with custom popup controller.
@@ -61,6 +66,8 @@ Custom card to display projected rain in the next 2 hours, using Buien Radar (Du
 For more on this card, check out [this repo](https://github.com/lukevink/home-assistant-buienradar-forecast-card)
 
 ![animations](https://raw.githubusercontent.com/Tobiasn2005/Home-Assistant/main/www/ui/weather.gif)
+
+My community [Home Assistant topic](https://community.home-assistant.io/t/my-throw-at-a-lovelace-ui/270438)
 
 ***
 
