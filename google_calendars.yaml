@@ -1,4 +1,40 @@
 
+- cal_id: p#weather@group.v.calendar.google.com
+  entities:
+  - device_id: weersverwachting
+    ignore_availability: true
+    name: Weersverwachting
+    track: true
+
+- cal_id: nl.dutch#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: feestdagen_in_nederland
+    ignore_availability: true
+    name: Feestdagen in Nederland
+    track: true
+
+- cal_id: family14616437734439834402@group.calendar.google.com
+  entities:
+  - device_id: gezin
+    ignore_availability: true
+    name: Gezin
+    track: true
+
+- cal_id: addressbook#contacts@group.v.calendar.google.com
+  entities:
+  - device_id: verjaardagen
+    ignore_availability: true
+    name: Verjaardagen
+    track: true
+
+- cal_id: tobiasnoordegraaf@gmail.com
+  entities:
+  - device_id: familie_noordegraaf
+    ignore_availability: true
+    name: Familie Noordegraaf
+    max_results: 50
+    track: true
+
 - cal_id: dd5pknle2jdomecj50nqlduh1hhmfvou@import.calendar.google.com
   entities:
   - device_id: spel

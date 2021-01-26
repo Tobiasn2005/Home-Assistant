@@ -37,15 +37,60 @@
                               min: 0
                               max: 15000
                               entity: sensor.current_power_usage
+                              name: Actual Power
                               severity:
                                 green: 0
                                 yellow: 5000
                                 red: 10000
                               unit: W
+                              
+                        - type: custom:mini-graph-card
+                          animate: true
+                          color_thresholds:
+                            - color: 'green'
+                              value: 600
+                            - color: '#ffa31a'
+                              value: 4000
+                            - color: '#ff1a1a'
+                              value: 11000
+                          entities:
+                            - entity: sensor.current_power_usage
+                          align_state: left
+                          group: false
+                          points_per_hour: 1
+                          line_width: 3
+                          hour24: true
+                          hours_to_show: 72
+                          show:
+                            {fill: fade, icon: false, name: false, state: false, labels: hover, points: hover}  
                           
                         - entity: binary_sensor.boiler_heating
 
-                        - entity: binary_sensor.hot_tap_water                          
+                        - entity: binary_sensor.hot_tap_water 
+                        
+                        - type: custom:bar-card
+                          width: 60%
+                          height: 2em
+                          decimal: 0
+                          unit_of_measurement: '%'
+                          positions:
+                            icon: outside
+                            indicator: 'off'
+                            name: outside
+                          severity:
+                            - color: '#e68f32'
+                              from: 0
+                              to: 37
+                            - color: '#248042'
+                              from: 38
+                              to: 55
+                            - color: '#e68f32'
+                              from: 56
+                              to: 100
+                          entity_row: true
+                          entities:
+                            - entity: sensor.toon_humidity
+                              name: Humidity                       
 
                         - entity: sensor.energy_cost_today
 

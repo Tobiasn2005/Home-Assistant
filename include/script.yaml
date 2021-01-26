@@ -7,6 +7,71 @@ script:
   #                                                  #
   ####################################################
 
+  increment_lf:
+    sequence:
+      - service: input_number.increment
+        data:
+          entity_id: input_number.tesla_lf
+
+  reset_lf:
+    sequence:          
+      - service: input_number.set_value
+        data:
+          entity_id: input_number.tesla_lf
+          value: 0    
+
+  increment_rf:
+    sequence:
+      - service: input_number.increment
+        data:
+          entity_id: input_number.tesla_rf
+
+  reset_rf:
+    sequence:          
+      - service: input_number.set_value
+        data:
+          entity_id: input_number.tesla_rf
+          value: 0 
+
+  increment_lr:
+    sequence:
+      - service: input_number.increment
+        data:
+          entity_id: input_number.tesla_lr
+
+  reset_lr:
+    sequence:          
+      - service: input_number.set_value
+        data:
+          entity_id: input_number.tesla_lr
+          value: 0 
+
+  increment_mr:
+    sequence:
+      - service: input_number.increment
+        data:
+          entity_id: input_number.tesla_mr
+
+  reset_mr:
+    sequence:          
+      - service: input_number.set_value
+        data:
+          entity_id: input_number.tesla_mr
+          value: 0           
+
+  increment_rr:
+    sequence:
+      - service: input_number.increment
+        data:
+          entity_id: input_number.tesla_rr
+
+  reset_rr:
+    sequence:          
+      - service: input_number.set_value
+        data:
+          entity_id: input_number.tesla_rr
+          value: 0
+
   notify_tesla_open:
     alias: "Notify when something on the tesla is left open"
     sequence:

@@ -1,0 +1,105 @@
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Afvalwijzer
+                hide_header: true
+                deviceID: this
+                style:
+                  .: |
+                    :host .content {
+                      width: calc(385px);
+                      max-width: 90vw;
+                    }
+                  $: |
+                    .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                      background: none !important;
+                    }
+                card:
+                  type: custom:layout-card
+                  column_num: 1
+                  column_width: [385]
+                  layout: vertical
+                  cards:
+                    - type: horizontal-stack
+                      cards:
+                        - type: picture-entity
+                          style: |
+                            ha-card {
+                              box-shadow: none;
+                              animation: {% if states('sensor.afvalwijzer_today') != 'Geen' %} blink 2s linear infinite;
+                                         {% else %} none
+                                         {% endif %}
+                              }
+                            @keyframes blink {
+                              100% {opacity: 0;}
+                              }
+                    
+                          entity: sensor.afvalwijzer_today
+                          name: Today
+                          show_state: false
+                          state_image: &state_image
+                            gft: /local/ui/afval/gft1.png
+                            papier: /local/ui/afval/papier1.png
+                            restafval: /local/ui/afval/rest1.png
+                            plastic: /local/ui/afval/plastic1.png
+                            Geen: /local/ui/afval/geen1.png
+                            unknown: /local/ui/afval/geen1.png
+                    
+                        - type: picture-entity
+                          style: |
+                            ha-card {
+                              box-shadow: none;
+                              animation: {% if states('sensor.afvalwijzer_tomorrow') != 'Geen' %} blink 2s linear infinite;
+                                         {% else %} none
+                                         {% endif %}
+                              }
+                            @keyframes blink {
+                              100% {opacity: 0;}
+                              }
+                          entity: sensor.afvalwijzer_tomorrow
+                          name: Tomorrow
+                          show_state: false
+                          state_image: *state_image
+                    
+                        - type: picture-entity
+                          style: |
+                            ha-card {
+                              box-shadow: none;
+                              }
+                          entity: sensor.afvalwijzer_day_after_tomorrow
+                          name: In 2 Days
+                          show_state: false
+                          state_image: *state_image  
+                          
+                    - type: custom:auto-entities
+                      card:
+                        type: entities
+                        title: Next Waste Pickup
+                      filter:
+                        exclude:
+                          - entity_id: sensor.afvalwijzer*next*
+                          - entity_id: sensor.afvalwijzer*to*
+                      
+                        include:
+                          - entity_id: sensor.afvalwijzer_*
+                            options:
+                              type: custom:template-entity-row
+                              state: >
+                                {{as_timestamp(strptime(states(config.entity),'%d-%m-%Y'))
+                                    |timestamp_custom('%-d %b')}}
+                              secondary: >
+                                {% set count = state_attr(config.entity,'days_until_collection_date')|int %}
+                                {% set day = as_timestamp(strptime(states(config.entity),'%d-%m-%Y'))|timestamp_custom('%A') %}
+                                {% set unit = 'day' if count == 1 else 'days' %}
+                      
+                                {% if count >= 14 %} {% set phrase = day + ' in 2 weeks' %}
+                                {% elif count >= 7 %} {% set phrase = 'Next week ' + day %}
+                                {% elif count >= 3 %} {% set phrase = 'Upcoming ' + day %}
+                                {% elif count == 2 %} {% set phrase = day + ', day after tomorrow' %}
+                                {% elif count == 1 %} {% set phrase = 'Tomorrow, ' + day %}
+                                {% else %} {% set phrase = 'Today, ' + day %}
+                                {% endif %}
+                                {{phrase}} {% if count != 0%} ({{count}} {{unit}}) {% endif %}
+                            sort:
+                              method: attribute
+                              attribute: days_until_collection_date

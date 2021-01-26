@@ -6,6 +6,16 @@ sensor.tesla_charger_power:
   friendly_name: Power
 sensor.tesla_battery_level:
   friendly_name: Battery
+device_tracker.iphone_van_nova:
+  friendly_name: Nova
+device_tracker.iphone_van_tobias:
+  friendly_name: Tobias
+device_tracker.imaai:
+  friendly_name: Maaike
+device_tracker.iphone:
+  friendly_name: Reza
+device_tracker.blowfish:
+  friendly_name: Boris
 light.erker_bank:
   friendly_name: Couch
 light.wasruimte:
@@ -26,3 +36,17 @@ light.gang:
   friendly_name: Hall
 light.erker:
   friendly_name: Bay couch
+device_tracker.tesla_location:
+  friendly_name: Falkor
+sensor.afvalwijzer_gft:
+  entity_picture: /local/ui/afval/gft.png
+  friendly_name: GFT  
+sensor.afvalwijzer_papier:
+  entity_picture: /local/ui/afval/papier.png
+  friendly_name: Paper  
+sensor.afvalwijzer_restafval:
+  entity_picture: /local/ui/afval/rest.png
+  friendly_name: Rest  
+sensor.afvalwijzer_plastic:
+  entity_picture: /local/ui/afval/plastic.png
+  friendly_name: Plastic  

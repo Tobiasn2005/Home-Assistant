@@ -28,22 +28,50 @@
                       entities:
                         - entity: binary_sensor.falkor_charger_sensor
                           name: Charger
+                        - entity: switch.falkor_charger_switch
+                          name: Charger
+                        - entity: lock.falkor_charger_door_lock
+                          name: Charger Door                          
+                        - entity: switch.falkor_maxrange_switch
+                          name: Max Range                          
                         - entity: sensor.falkor_charging_rate_sensor
                           name: Charging Rate
                         - type: 'custom:bar-card'
                           width: 70%
+                          height: 2em                          
                           entities:
                             - name: Battery
                               entity: sensor.falkor_battery_sensor
+                              severity:
+                                - color: '#e63917'
+                                  from: 0
+                                  to: 6
+                                - color: '#e68f32'
+                                  from: 7
+                                  to: 19
+                                - color: '#248042'
+                                  from: 20
+                                  to: 100                              
                             - name: Range
                               entity: sensor.falkor_range_sensor
-                              max: 490
+                              max: 480
+                              severity:
+                                - color: '#e63917'
+                                  from: 0
+                                  to: 29
+                                - color: '#e68f32'
+                                  from: 30
+                                  to: 99
+                                - color: '#248042'
+                                  from: 100
+                                  to: 480
                           positions:
                             icon: 'off'
                             indicator: inside
                             name: outside
                         - type: custom:mini-graph-card
                           name: Battery & Range
+                          animate: true
                           points_per_hour: 2
                           icon: 'mdi:battery'
                           entities:
@@ -61,7 +89,7 @@
                       entities:
                         - type: 'custom:simple-thermostat'
                           entity: climate.falkor_hvac_climate_system
-                         # name: Climate
+                          name: Climate
                           control:
                             hvac:
                               'heat_cool':
@@ -73,6 +101,7 @@
                                 name: 'Defrost'
                         - type: custom:mini-graph-card
                           name: Temperature
+                          animate: true
                           points_per_hour: 2
                           icon: 'mdi:thermometer'
                           entities:
@@ -81,28 +110,185 @@
                             - entity: sensor.falkor_temperature_sensor_outside
                               name: Outside
                           line_color: blue
-
+                         
                     - break
-                    
-                    - type: entities
-                      title: Locks
+
+                    - type: "custom:config-template-card"
                       entities:
-                        - entity: lock.falkor_door_lock
-                          name: Doors
-                        - entity: lock.falkor_charger_door_lock
-                          name: Charger Door
-                        - entity: lock.falkor_frunk_lock
-                          name: Frunk
-                        - entity: lock.falkor_trunk_lock
-                          name: Trunk
-                    - type: entities
-                      title: Switches
+                        - input_number.tesla_lf
+                        - input_number.tesla_rf
+                        - input_number.tesla_lr
+                        - input_number.tesla_mr
+                        - input_number.tesla_rr
+                        - script.reset_lf
+                        - script.reset_rf
+                        - script.reset_lr
+                        - script.reset_mr
+                        - script.reset_rr
+                        - script.increment_lf
+                        - script.increment_rf
+                        - script.increment_lr
+                        - script.increment_mr
+                        - script.increment_rr
+                      card:
+                        type: picture-elements   
+                        title: Seats
+                        class: add_header
+                        show_header_toggle: false                        
+                        image: /local/ui/tesla/seats.png
+                        elements:
+                          - action: none
+                            entity: input_number.tesla_lf
+                            hold_action: none
+                            tap_action: none
+                            state_image:
+                              '0.0': /local/ui/tesla/lf0.png
+                              '1.0': /local/ui/tesla/lf1.png
+                              '2.0': /local/ui/tesla/lf2.png
+                              '3.0': /local/ui/tesla/lf3.png
+                            style:
+                              top: 50%
+                              left: 50%                
+                              width: 100%
+                            type: image
+                        
+                          - action: none
+                            entity: input_number.tesla_rf
+                            hold_action: none
+                            tap_action: none                          
+                            state_image:
+                              '0.0': /local/ui/tesla/rf0.png
+                              '1.0': /local/ui/tesla/rf1.png
+                              '2.0': /local/ui/tesla/rf2.png
+                              '3.0': /local/ui/tesla/rf3.png
+                            style:
+                              top: 50%
+                              left: 50%                
+                              width: 100%
+                            type: image
+                        
+                          - action: none
+                            entity: input_number.tesla_lr
+                            hold_action: none
+                            tap_action: none                          
+                            state_image:
+                              '0.0': /local/ui/tesla/lr0.png
+                              '1.0': /local/ui/tesla/lr1.png
+                              '2.0': /local/ui/tesla/lr2.png
+                              '3.0': /local/ui/tesla/lr3.png
+                            style:
+                              top: 50%
+                              left: 50%                
+                              width: 100%
+                            type: image
+                        
+                          - action: none
+                            entity: input_number.tesla_mr
+                            hold_action: none
+                            tap_action: none                          
+                            state_image:
+                              '0.0': /local/ui/tesla/mr0.png
+                              '1.0': /local/ui/tesla/mr1.png
+                              '2.0': /local/ui/tesla/mr2.png
+                              '3.0': /local/ui/tesla/mr3.png
+                            style:
+                              top: 50%
+                              left: 50%                
+                              width: 100%
+                            type: image
+                        
+                          - action: none
+                            entity: input_number.tesla_rr
+                            hold_action: none
+                            tap_action: none                          
+                            state_image:
+                              '0.0': /local/ui/tesla/rr0.png
+                              '1.0': /local/ui/tesla/rr1.png
+                              '2.0': /local/ui/tesla/rr2.png
+                              '3.0': /local/ui/tesla/rr3.png
+                            style:
+                              top: 50%
+                              left: 50%                
+                              width: 100%
+                            type: image
+                        
+                          - type: image
+                            image: /local/transparent.png                        
+                            hold_action: 
+                              action: call-service
+                              service: script.reset_lf
+                            tap_action:
+                              action: call-service
+                              service: script.increment_lf
+                            style:
+                              height: 21%
+                              left: 35%
+                              top: 30%
+                              width: 21%
+                              
+                          - type: image
+                            image: /local/transparent.png                        
+                            hold_action: 
+                              action: call-service
+                              service: script.reset_rf
+                            tap_action:
+                              action: call-service
+                              service: script.increment_rf
+                            style:
+                              height: 21%
+                              left: 65%
+                              top: 30%
+                              width: 21%
+                        
+                          - type: image
+                            image: /local/transparent.png                        
+                            hold_action: 
+                              action: call-service
+                              service: script.reset_lr
+                            tap_action:
+                              action: call-service
+                              service: script.increment_lr
+                            style:
+                              height: 20%
+                              left: 31%
+                              top: 60%
+                              width: 20%
+                        
+                          - type: image
+                            image: /local/transparent.png                        
+                            hold_action: 
+                              action: call-service
+                              service: script.reset_mr
+                            tap_action:
+                              action: call-service
+                              service: script.increment_mr
+                            style:
+                              height: 17%
+                              left: 50%
+                              top: 60%
+                              width: 17%
+                        
+                          - type: image
+                            image: /local/transparent.png                        
+                            hold_action: 
+                              action: call-service
+                              service: script.reset_rr
+                            tap_action:
+                              action: call-service
+                              service: script.increment_rr
+                            style:
+                              height: 20%
+                              left: 70%
+                              top: 60%
+                              width: 20%
+                              
+                    - type: custom:mini-graph-card
+                      name: Speed
+                      animate: true
+                      hours_to_show: 24
+                      points_per_hour: 10
+                      icon: 'mdi:speedometer'
                       entities:
-                        - entity: switch.falkor_charger_switch
-                          name: Charger
-                        - entity: switch.falkor_maxrange_switch
-                          name: Max Range
-                        - entity: switch.falkor_sentry_mode_switch
-                          name: Sentry Mode
-                        - entity: switch.falkor_update_switch
-                          name: Data Polling    
+                        - entity: sensor.tesla_speed_round
+                          name: Speed            
+                     

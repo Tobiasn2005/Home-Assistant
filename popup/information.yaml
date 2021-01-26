@@ -94,10 +94,13 @@
                             indicator: 'off'
                             name: outside
                           severity: &bar_card_severity
-                            - color: '#303435'
+                            - color: '#248042'
                               from: 0
+                              to: 49
+                            - color: '#e68f32'
+                              from: 50
                               to: 89
-                            - color: '#6d2525'
+                            - color: '#e63917'
                               from: 90
                               to: 100
                           entity_row: true

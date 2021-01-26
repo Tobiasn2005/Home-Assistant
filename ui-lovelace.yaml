@@ -428,7 +428,20 @@ views:
                        - height: 12.5%
                        - width: 12.5%
                        - type: image
-                       - name: Gang                  
+                       - name: Gang  
+
+                   - action: none
+                     entity: sensor.afvalwijzer_next_type_and_date
+                     hold_action: none
+                     image: /local/transparent.png
+                     style:
+                       left: 42.3%
+                       top: 67%
+                       height: 8%
+                       width: 7%
+                       #border: 1px solid green
+                     tap_action: !include popup/afval.yaml 
+                     type: image                        
         
         
                       #########################    INDIVIDUAL LIGHT ICONS    #########################
@@ -580,7 +593,21 @@ views:
                        background-color: "rgba(255, 255, 255, 0.3)"
                      tap_action: !include popup/toon.yaml                      
                        
-                       
+                   - action: none
+                     entity: media_player.samsung_woonkamer
+                     hold_action: !include popup/woonkamer_tv.yaml
+                     image: /local/ui/floorplan/tv_overlay.png
+                     style:
+                       left: 76.67%
+                       opacity: "${states['media_player.samsung_woonkamer'].state === 'on' ? '0.8' : '0'}"
+                       top: 24%
+                       width: 10%
+                     tap_action: 
+                       action: call-service
+                       service: media_player.turn_off
+                       service_data:
+                         entity_id: media_player.samsung_woonkamer
+                     type: image    
                        
                     #########################    NOW PLAYING ON PROJECTOR IN FLOORPLAN    #########################
                    
@@ -596,8 +623,7 @@ views:
                          perspective(210px) scale(1.3, 1.1)  rotateX(0deg)
                          rotateY(0deg) rotateZ(0deg) translateY(0px)  skewX(-22deg)
                          skewY(0deg)
-                       width: 5%                 
-                       
+                       width: 5% 
                   
                     #################################################################
                     #                                                               #
@@ -722,6 +748,47 @@ views:
                        action: navigate
                        navigation_path: /lovelace/3
                      type: image
+                     
+                   #################################################
+                   #                                               #
+                   #                AFVALWIJZER                    #
+                   #                                               #
+                   #################################################
+         
+                   - type: conditional
+                     conditions:
+                       - entity: input_boolean.afval
+                         state: 'on'
+                     elements:
+                       - type: custom:button-card
+                         entity: sensor.afvalwijzer_next_type_and_date
+                         aspect_ratio: 4.5/1
+                         style:
+                           top: 58%
+                           left: 11.7%
+                           width: 20.5078125%
+                         show_icon: false
+                         show_name: false
+                         show_state: true
+                         tap_action:
+                           action: call-service
+                           service: input_boolean.turn_off
+                           service_data:
+                             entity_id: input_boolean.afval                
+                         hold_action: none
+                         custom_fields:
+                           icon_test: >
+                             <svg viewBox="0 0 50 50"><style>@keyframes animate{10%, 20%, 100%{transform: rotateZ(0deg);}30%, 50%, 70%{transform: rotateZ(7deg);}90%{transform: rotateZ(3deg);}40%, 60%, 80%{transform: rotateZ(-7deg);}}.animate{animation: animate 1.35s infinite cubic-bezier(0.5, 1, 0.89, 1); animation-fill-mode: both; transform-origin: 70% 80%; animation-delay: 0s;}</style>
+                             <path class="animate" fill="#ff0000" d="M32.1 18.4s.3-1.6.7-2.1c.3-.6.9-1.4 1.6-1.8.6-.4 1.1-.7 1.4-.7s.7-.1 1 .1.6.4.8 1.3l.3 2.7.1 2.4.2 4.1c0 .3.2 3.1.2 3.3s.2 2.7.2 3.2l-.1 2.5c.1 1.6.5 3.1-.2 4.6-.6 1.4-1.7 2.7-2.9 3.6-.5.4-1.9 1.3-2.9 1.7-1.1.5-2.2.8-3.3 1.1-.5.1-1.4.4-2.3.3s-1.8-.6-2.1-1l-1.6-2.3c-.6-.8-2.1-2.3-2.3-2.5l-2.7-2.8c-.2-.2-2.7-3.5-2.9-3.8l-3.1-4.7-1.8-3.2-1.5-2.8-.9-1.8c-.1-.2-.3-1.1-.2-1.4.3-1.2 1.4-1.4 2.3-.7.3.2.9 1 1.1 1.3s6.1 8.1 6.1 8.1c.2.3.7.3.9 0s-.1-.7-.2-.9c-.4-.6-8.3-11.5-8.3-11.5s-.6-.9-.7-1.1c-.3-1.1 0-2.3 1.1-2.7s1.9.3 2.6 1.1c.3.3 8.3 11.5 8.3 11.5.2.2.3.3.5.3.3 0 .5-.4.4-.7-.1-.2-.5-.9-.5-.9L11.8 9c-.6-1-.9-2-.1-3 .7-.8 2.2-1.3 3-.2.3.3 10.1 14.3 10.1 14.3.2.2.5.4.7.3.5-.1.3-.7.1-1-.1-.2-8.4-11.8-8.4-11.8-.4-.9-.6-2 .2-2.8 1-1.1 2.5-.5 3.3.5.2.3 1 1.4 1 1.4l2.7 3.7c.1.2 3.4 4.4 3.8 4.8.9 1.1 1.8 2.2 2.7 3.2l.5.5c.1.1.1.4.1.8 0 1.3.1 2.6.1 3.9 0 .2.1.4.2.6.3.3.6.1.7-.2.1-.2 0-2.4 0-2.7-.3-.3-.5-1.3-.4-2.9zM12.2 46.9s-2.8-.8-4.8-2.7-2.6-2.7-2.8-3-1.8-3-2-3.6c-.2-.5-.2-.7.2-1 .4-.4 1-.5 1.3.1.1.2.4 1 .5 1.2s1 1.9 1.7 2.8 1.6 2.2 4.4 3.8c.6.3 1.2.6 1.9.9.3.1.6.2.8.4.1.2.1.6-.1.8-.2.4-.7.4-1.1.3zM7.1 30.7l.9 3.1c.3.7 1.1 2.3 1.9 3.3s2.4 2.6 3.4 3.2 2 1.1 3 1.5c1 .3 1.1.4 1.2.5.3.4.2 1.2-.4 1.3-.2 0-1.2 0-1.8-.3L12 41.7c-.5-.4-3.9-3.1-5.1-6S5.3 31 5.2 30.4s-.2-1.1 0-1.4c.3-.4.9-.8 1.3-.3.2.3.3.6.3.9.1 0 .2.8.3 1.1zm26.8-25s.2-.1.5-.1.8.3 1.4.7 1.9 1 3.6 2.9 2.9 3.9 3.4 5.8c.5 1.8.8 3.1.9 5.5 0 .5.1 1.6 0 1.7-.2.5-.5.7-1 .7-.6 0-.7-.5-.7-1l-.1-2.9c-.1-.6-.3-1.9-.7-2.9-.3-1-.7-2.3-1.7-3.6-.9-1.3-2.1-2.8-3.2-3.5l-2.4-1.5c-.6-.6-.7-1.2 0-1.8zm4.9-2.5s.3-.2.5-.1c.2 0 .7.3.9.4s2.1 1.3 3.6 3c1.5 1.6 3.5 5.1 3.7 7.4.1.4.2.9 0 1-.2.2-.4.4-.7.4-.2 0-.5 0-.7-.1-.1-.2-.4-1.1-.4-1.3s-.6-2-1.1-3.1C44 9.7 43.5 8.5 42 7.1s-2.2-1.9-2.8-2.2-1.1-.6-1.1-1c.1-.3.3-.6.7-.7z"/></svg>
+                         styles:
+                           state:
+                             [top: 25%, left: 11%, line-height: 2vw, position: absolute]
+                           card:
+                             [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.8)', font-size: 1.34vw, 
+                             background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 5.0vw, box-shadow: none, transition: none]  
+                           custom_fields:
+                             icon_test:
+                               [top: 25%, left: 80%, width: 2vw, position: absolute]                      
                                
                      #########################    PEOPLE    #########################
                                  
@@ -1459,7 +1526,19 @@ views:
                        - height: 21%
                        - width: 20%
                        - type: image
-                       - name: Buiten                              
+                       - name: Buiten
+
+                   - action: none
+                     entity: sensor.afvalwijzer_next_type_and_date
+                     hold_action: none
+                     image: /local/transparent.png
+                     style:
+                       left: 43%
+                       top: 71%
+                       height: 7%
+                       width: 6.5%
+                     tap_action: !include popup/afval.yaml 
+                     type: image                        
         
         
                       #########################    INDIVIDUAL LIGHT ICONS    #########################
@@ -1673,6 +1752,47 @@ views:
                        action: navigate
                        navigation_path: /lovelace/3
                      type: image
+                     
+                   #################################################
+                   #                                               #
+                   #                AFVALWIJZER                    #
+                   #                                               #
+                   #################################################
+         
+                   - type: conditional
+                     conditions:
+                       - entity: input_boolean.afval
+                         state: 'on'
+                     elements:
+                       - type: custom:button-card
+                         entity: sensor.afvalwijzer_next_type_and_date
+                         aspect_ratio: 4.5/1
+                         style:
+                           top: 58%
+                           left: 11.7%
+                           width: 20.5078125%
+                         show_icon: false
+                         show_name: false
+                         show_state: true
+                         tap_action:
+                           action: call-service
+                           service: input_boolean.turn_off
+                           service_data:
+                             entity_id: input_boolean.afval                
+                         hold_action: none
+                         custom_fields:
+                           icon_test: >
+                             <svg viewBox="0 0 50 50"><style>@keyframes animate{10%, 20%, 100%{transform: rotateZ(0deg);}30%, 50%, 70%{transform: rotateZ(7deg);}90%{transform: rotateZ(3deg);}40%, 60%, 80%{transform: rotateZ(-7deg);}}.animate{animation: animate 1.35s infinite cubic-bezier(0.5, 1, 0.89, 1); animation-fill-mode: both; transform-origin: 70% 80%; animation-delay: 0s;}</style>
+                             <path class="animate" fill="#ff0000" d="M32.1 18.4s.3-1.6.7-2.1c.3-.6.9-1.4 1.6-1.8.6-.4 1.1-.7 1.4-.7s.7-.1 1 .1.6.4.8 1.3l.3 2.7.1 2.4.2 4.1c0 .3.2 3.1.2 3.3s.2 2.7.2 3.2l-.1 2.5c.1 1.6.5 3.1-.2 4.6-.6 1.4-1.7 2.7-2.9 3.6-.5.4-1.9 1.3-2.9 1.7-1.1.5-2.2.8-3.3 1.1-.5.1-1.4.4-2.3.3s-1.8-.6-2.1-1l-1.6-2.3c-.6-.8-2.1-2.3-2.3-2.5l-2.7-2.8c-.2-.2-2.7-3.5-2.9-3.8l-3.1-4.7-1.8-3.2-1.5-2.8-.9-1.8c-.1-.2-.3-1.1-.2-1.4.3-1.2 1.4-1.4 2.3-.7.3.2.9 1 1.1 1.3s6.1 8.1 6.1 8.1c.2.3.7.3.9 0s-.1-.7-.2-.9c-.4-.6-8.3-11.5-8.3-11.5s-.6-.9-.7-1.1c-.3-1.1 0-2.3 1.1-2.7s1.9.3 2.6 1.1c.3.3 8.3 11.5 8.3 11.5.2.2.3.3.5.3.3 0 .5-.4.4-.7-.1-.2-.5-.9-.5-.9L11.8 9c-.6-1-.9-2-.1-3 .7-.8 2.2-1.3 3-.2.3.3 10.1 14.3 10.1 14.3.2.2.5.4.7.3.5-.1.3-.7.1-1-.1-.2-8.4-11.8-8.4-11.8-.4-.9-.6-2 .2-2.8 1-1.1 2.5-.5 3.3.5.2.3 1 1.4 1 1.4l2.7 3.7c.1.2 3.4 4.4 3.8 4.8.9 1.1 1.8 2.2 2.7 3.2l.5.5c.1.1.1.4.1.8 0 1.3.1 2.6.1 3.9 0 .2.1.4.2.6.3.3.6.1.7-.2.1-.2 0-2.4 0-2.7-.3-.3-.5-1.3-.4-2.9zM12.2 46.9s-2.8-.8-4.8-2.7-2.6-2.7-2.8-3-1.8-3-2-3.6c-.2-.5-.2-.7.2-1 .4-.4 1-.5 1.3.1.1.2.4 1 .5 1.2s1 1.9 1.7 2.8 1.6 2.2 4.4 3.8c.6.3 1.2.6 1.9.9.3.1.6.2.8.4.1.2.1.6-.1.8-.2.4-.7.4-1.1.3zM7.1 30.7l.9 3.1c.3.7 1.1 2.3 1.9 3.3s2.4 2.6 3.4 3.2 2 1.1 3 1.5c1 .3 1.1.4 1.2.5.3.4.2 1.2-.4 1.3-.2 0-1.2 0-1.8-.3L12 41.7c-.5-.4-3.9-3.1-5.1-6S5.3 31 5.2 30.4s-.2-1.1 0-1.4c.3-.4.9-.8 1.3-.3.2.3.3.6.3.9.1 0 .2.8.3 1.1zm26.8-25s.2-.1.5-.1.8.3 1.4.7 1.9 1 3.6 2.9 2.9 3.9 3.4 5.8c.5 1.8.8 3.1.9 5.5 0 .5.1 1.6 0 1.7-.2.5-.5.7-1 .7-.6 0-.7-.5-.7-1l-.1-2.9c-.1-.6-.3-1.9-.7-2.9-.3-1-.7-2.3-1.7-3.6-.9-1.3-2.1-2.8-3.2-3.5l-2.4-1.5c-.6-.6-.7-1.2 0-1.8zm4.9-2.5s.3-.2.5-.1c.2 0 .7.3.9.4s2.1 1.3 3.6 3c1.5 1.6 3.5 5.1 3.7 7.4.1.4.2.9 0 1-.2.2-.4.4-.7.4-.2 0-.5 0-.7-.1-.1-.2-.4-1.1-.4-1.3s-.6-2-1.1-3.1C44 9.7 43.5 8.5 42 7.1s-2.2-1.9-2.8-2.2-1.1-.6-1.1-1c.1-.3.3-.6.7-.7z"/></svg>
+                         styles:
+                           state:
+                             [top: 25%, left: 11%, line-height: 2vw, position: absolute]
+                           card:
+                             [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.8)', font-size: 1.34vw, 
+                             background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 5.0vw, box-shadow: none, transition: none]  
+                           custom_fields:
+                             icon_test:
+                               [top: 25%, left: 80%, width: 2vw, position: absolute]                      
                                
                      #########################    PEOPLE    #########################
                                  
@@ -2593,6 +2713,47 @@ views:
               action: navigate
               navigation_path: /lovelace/3
             type: image
+            
+          #################################################
+          #                                               #
+          #                AFVALWIJZER                    #
+          #                                               #
+          #################################################
+
+          - type: conditional
+            conditions:
+              - entity: input_boolean.afval
+                state: 'on'
+            elements:
+              - type: custom:button-card
+                entity: sensor.afvalwijzer_next_type_and_date
+                aspect_ratio: 4.5/1
+                style:
+                  top: 58%
+                  left: 11.7%
+                  width: 20.5078125%
+                show_icon: false
+                show_name: false
+                show_state: true
+                tap_action:
+                  action: call-service
+                  service: input_boolean.turn_off
+                  service_data:
+                    entity_id: input_boolean.afval                
+                hold_action: none
+                custom_fields:
+                  icon_test: >
+                    <svg viewBox="0 0 50 50"><style>@keyframes animate{10%, 20%, 100%{transform: rotateZ(0deg);}30%, 50%, 70%{transform: rotateZ(7deg);}90%{transform: rotateZ(3deg);}40%, 60%, 80%{transform: rotateZ(-7deg);}}.animate{animation: animate 1.35s infinite cubic-bezier(0.5, 1, 0.89, 1); animation-fill-mode: both; transform-origin: 70% 80%; animation-delay: 0s;}</style>
+                    <path class="animate" fill="#ff0000" d="M32.1 18.4s.3-1.6.7-2.1c.3-.6.9-1.4 1.6-1.8.6-.4 1.1-.7 1.4-.7s.7-.1 1 .1.6.4.8 1.3l.3 2.7.1 2.4.2 4.1c0 .3.2 3.1.2 3.3s.2 2.7.2 3.2l-.1 2.5c.1 1.6.5 3.1-.2 4.6-.6 1.4-1.7 2.7-2.9 3.6-.5.4-1.9 1.3-2.9 1.7-1.1.5-2.2.8-3.3 1.1-.5.1-1.4.4-2.3.3s-1.8-.6-2.1-1l-1.6-2.3c-.6-.8-2.1-2.3-2.3-2.5l-2.7-2.8c-.2-.2-2.7-3.5-2.9-3.8l-3.1-4.7-1.8-3.2-1.5-2.8-.9-1.8c-.1-.2-.3-1.1-.2-1.4.3-1.2 1.4-1.4 2.3-.7.3.2.9 1 1.1 1.3s6.1 8.1 6.1 8.1c.2.3.7.3.9 0s-.1-.7-.2-.9c-.4-.6-8.3-11.5-8.3-11.5s-.6-.9-.7-1.1c-.3-1.1 0-2.3 1.1-2.7s1.9.3 2.6 1.1c.3.3 8.3 11.5 8.3 11.5.2.2.3.3.5.3.3 0 .5-.4.4-.7-.1-.2-.5-.9-.5-.9L11.8 9c-.6-1-.9-2-.1-3 .7-.8 2.2-1.3 3-.2.3.3 10.1 14.3 10.1 14.3.2.2.5.4.7.3.5-.1.3-.7.1-1-.1-.2-8.4-11.8-8.4-11.8-.4-.9-.6-2 .2-2.8 1-1.1 2.5-.5 3.3.5.2.3 1 1.4 1 1.4l2.7 3.7c.1.2 3.4 4.4 3.8 4.8.9 1.1 1.8 2.2 2.7 3.2l.5.5c.1.1.1.4.1.8 0 1.3.1 2.6.1 3.9 0 .2.1.4.2.6.3.3.6.1.7-.2.1-.2 0-2.4 0-2.7-.3-.3-.5-1.3-.4-2.9zM12.2 46.9s-2.8-.8-4.8-2.7-2.6-2.7-2.8-3-1.8-3-2-3.6c-.2-.5-.2-.7.2-1 .4-.4 1-.5 1.3.1.1.2.4 1 .5 1.2s1 1.9 1.7 2.8 1.6 2.2 4.4 3.8c.6.3 1.2.6 1.9.9.3.1.6.2.8.4.1.2.1.6-.1.8-.2.4-.7.4-1.1.3zM7.1 30.7l.9 3.1c.3.7 1.1 2.3 1.9 3.3s2.4 2.6 3.4 3.2 2 1.1 3 1.5c1 .3 1.1.4 1.2.5.3.4.2 1.2-.4 1.3-.2 0-1.2 0-1.8-.3L12 41.7c-.5-.4-3.9-3.1-5.1-6S5.3 31 5.2 30.4s-.2-1.1 0-1.4c.3-.4.9-.8 1.3-.3.2.3.3.6.3.9.1 0 .2.8.3 1.1zm26.8-25s.2-.1.5-.1.8.3 1.4.7 1.9 1 3.6 2.9 2.9 3.9 3.4 5.8c.5 1.8.8 3.1.9 5.5 0 .5.1 1.6 0 1.7-.2.5-.5.7-1 .7-.6 0-.7-.5-.7-1l-.1-2.9c-.1-.6-.3-1.9-.7-2.9-.3-1-.7-2.3-1.7-3.6-.9-1.3-2.1-2.8-3.2-3.5l-2.4-1.5c-.6-.6-.7-1.2 0-1.8zm4.9-2.5s.3-.2.5-.1c.2 0 .7.3.9.4s2.1 1.3 3.6 3c1.5 1.6 3.5 5.1 3.7 7.4.1.4.2.9 0 1-.2.2-.4.4-.7.4-.2 0-.5 0-.7-.1-.1-.2-.4-1.1-.4-1.3s-.6-2-1.1-3.1C44 9.7 43.5 8.5 42 7.1s-2.2-1.9-2.8-2.2-1.1-.6-1.1-1c.1-.3.3-.6.7-.7z"/></svg>
+                styles:
+                  state:
+                    [top: 25%, left: 11%, line-height: 2vw, position: absolute]
+                  card:
+                    [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.8)', font-size: 1.34vw, 
+                    background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 5.0vw, box-shadow: none, transition: none]  
+                  custom_fields:
+                    icon_test:
+                      [top: 25%, left: 80%, width: 2vw, position: absolute]             
                       
             #########################    PEOPLE    #########################
                         
@@ -3045,8 +3206,6 @@ views:
       - type: picture-elements
         image: /local/ui/floorplan/blurred.png
         elements:
- 
-          # markdown fix
           - type: custom:hui-element
             card_type: markdown
             style: {opacity: 0}
@@ -3088,6 +3247,21 @@ views:
               padding: 0.8vw
               --mdc-icon-size: 4vw
             tap_action: !include popup/information.yaml
+            
+          - type: conditional
+            conditions:
+              - entity: sensor.hass_version_template
+                state_not: Current
+              - entity: sensor.hass_version_template
+                state_not: unknown
+            elements:
+              - type: image
+                image: /local/update_available.svg
+                style:
+                  top: 92.09%
+                  left: 53.6%
+                  width: 1.7%
+                tap_action: !include popup/information.yaml            
 
           #################################################
           #                                               #
@@ -4054,6 +4228,47 @@ views:
               action: navigate
               navigation_path: /lovelace/3
             type: image
+            
+          #################################################
+          #                                               #
+          #                AFVALWIJZER                    #
+          #                                               #
+          #################################################
+
+          - type: conditional
+            conditions:
+              - entity: input_boolean.afval
+                state: 'on'
+            elements:
+              - type: custom:button-card
+                entity: sensor.afvalwijzer_next_type_and_date
+                aspect_ratio: 4.5/1
+                style:
+                  top: 58%
+                  left: 11.7%
+                  width: 20.5078125%
+                show_icon: false
+                show_name: false
+                show_state: true
+                tap_action:
+                  action: call-service
+                  service: input_boolean.turn_off
+                  service_data:
+                    entity_id: input_boolean.afval                
+                hold_action: none
+                custom_fields:
+                  icon_test: >
+                    <svg viewBox="0 0 50 50"><style>@keyframes animate{10%, 20%, 100%{transform: rotateZ(0deg);}30%, 50%, 70%{transform: rotateZ(7deg);}90%{transform: rotateZ(3deg);}40%, 60%, 80%{transform: rotateZ(-7deg);}}.animate{animation: animate 1.35s infinite cubic-bezier(0.5, 1, 0.89, 1); animation-fill-mode: both; transform-origin: 70% 80%; animation-delay: 0s;}</style>
+                    <path class="animate" fill="#ff0000" d="M32.1 18.4s.3-1.6.7-2.1c.3-.6.9-1.4 1.6-1.8.6-.4 1.1-.7 1.4-.7s.7-.1 1 .1.6.4.8 1.3l.3 2.7.1 2.4.2 4.1c0 .3.2 3.1.2 3.3s.2 2.7.2 3.2l-.1 2.5c.1 1.6.5 3.1-.2 4.6-.6 1.4-1.7 2.7-2.9 3.6-.5.4-1.9 1.3-2.9 1.7-1.1.5-2.2.8-3.3 1.1-.5.1-1.4.4-2.3.3s-1.8-.6-2.1-1l-1.6-2.3c-.6-.8-2.1-2.3-2.3-2.5l-2.7-2.8c-.2-.2-2.7-3.5-2.9-3.8l-3.1-4.7-1.8-3.2-1.5-2.8-.9-1.8c-.1-.2-.3-1.1-.2-1.4.3-1.2 1.4-1.4 2.3-.7.3.2.9 1 1.1 1.3s6.1 8.1 6.1 8.1c.2.3.7.3.9 0s-.1-.7-.2-.9c-.4-.6-8.3-11.5-8.3-11.5s-.6-.9-.7-1.1c-.3-1.1 0-2.3 1.1-2.7s1.9.3 2.6 1.1c.3.3 8.3 11.5 8.3 11.5.2.2.3.3.5.3.3 0 .5-.4.4-.7-.1-.2-.5-.9-.5-.9L11.8 9c-.6-1-.9-2-.1-3 .7-.8 2.2-1.3 3-.2.3.3 10.1 14.3 10.1 14.3.2.2.5.4.7.3.5-.1.3-.7.1-1-.1-.2-8.4-11.8-8.4-11.8-.4-.9-.6-2 .2-2.8 1-1.1 2.5-.5 3.3.5.2.3 1 1.4 1 1.4l2.7 3.7c.1.2 3.4 4.4 3.8 4.8.9 1.1 1.8 2.2 2.7 3.2l.5.5c.1.1.1.4.1.8 0 1.3.1 2.6.1 3.9 0 .2.1.4.2.6.3.3.6.1.7-.2.1-.2 0-2.4 0-2.7-.3-.3-.5-1.3-.4-2.9zM12.2 46.9s-2.8-.8-4.8-2.7-2.6-2.7-2.8-3-1.8-3-2-3.6c-.2-.5-.2-.7.2-1 .4-.4 1-.5 1.3.1.1.2.4 1 .5 1.2s1 1.9 1.7 2.8 1.6 2.2 4.4 3.8c.6.3 1.2.6 1.9.9.3.1.6.2.8.4.1.2.1.6-.1.8-.2.4-.7.4-1.1.3zM7.1 30.7l.9 3.1c.3.7 1.1 2.3 1.9 3.3s2.4 2.6 3.4 3.2 2 1.1 3 1.5c1 .3 1.1.4 1.2.5.3.4.2 1.2-.4 1.3-.2 0-1.2 0-1.8-.3L12 41.7c-.5-.4-3.9-3.1-5.1-6S5.3 31 5.2 30.4s-.2-1.1 0-1.4c.3-.4.9-.8 1.3-.3.2.3.3.6.3.9.1 0 .2.8.3 1.1zm26.8-25s.2-.1.5-.1.8.3 1.4.7 1.9 1 3.6 2.9 2.9 3.9 3.4 5.8c.5 1.8.8 3.1.9 5.5 0 .5.1 1.6 0 1.7-.2.5-.5.7-1 .7-.6 0-.7-.5-.7-1l-.1-2.9c-.1-.6-.3-1.9-.7-2.9-.3-1-.7-2.3-1.7-3.6-.9-1.3-2.1-2.8-3.2-3.5l-2.4-1.5c-.6-.6-.7-1.2 0-1.8zm4.9-2.5s.3-.2.5-.1c.2 0 .7.3.9.4s2.1 1.3 3.6 3c1.5 1.6 3.5 5.1 3.7 7.4.1.4.2.9 0 1-.2.2-.4.4-.7.4-.2 0-.5 0-.7-.1-.1-.2-.4-1.1-.4-1.3s-.6-2-1.1-3.1C44 9.7 43.5 8.5 42 7.1s-2.2-1.9-2.8-2.2-1.1-.6-1.1-1c.1-.3.3-.6.7-.7z"/></svg>
+                styles:
+                  state:
+                    [top: 25%, left: 11%, line-height: 2vw, position: absolute]
+                  card:
+                    [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.8)', font-size: 1.34vw, 
+                    background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 5.0vw, box-shadow: none, transition: none]  
+                  custom_fields:
+                    icon_test:
+                      [top: 25%, left: 80%, width: 2vw, position: absolute]      
                       
             #########################    PEOPLE    #########################
                         
@@ -4862,7 +5077,48 @@ views:
             tap_action:
               action: navigate
               navigation_path: /lovelace/3
-            type: image          
+            type: image
+
+          #################################################
+          #                                               #
+          #                AFVALWIJZER                    #
+          #                                               #
+          #################################################
+
+          - type: conditional
+            conditions:
+              - entity: input_boolean.afval
+                state: 'on'
+            elements:
+              - type: custom:button-card
+                entity: sensor.afvalwijzer_next_type_and_date
+                aspect_ratio: 4.5/1
+                style:
+                  top: 58%
+                  left: 11.7%
+                  width: 20.5078125%
+                show_icon: false
+                show_name: false
+                show_state: true
+                tap_action:
+                  action: call-service
+                  service: input_boolean.turn_off
+                  service_data:
+                    entity_id: input_boolean.afval                
+                hold_action: none
+                custom_fields:
+                  icon_test: >
+                    <svg viewBox="0 0 50 50"><style>@keyframes animate{10%, 20%, 100%{transform: rotateZ(0deg);}30%, 50%, 70%{transform: rotateZ(7deg);}90%{transform: rotateZ(3deg);}40%, 60%, 80%{transform: rotateZ(-7deg);}}.animate{animation: animate 1.35s infinite cubic-bezier(0.5, 1, 0.89, 1); animation-fill-mode: both; transform-origin: 70% 80%; animation-delay: 0s;}</style>
+                    <path class="animate" fill="#ff0000" d="M32.1 18.4s.3-1.6.7-2.1c.3-.6.9-1.4 1.6-1.8.6-.4 1.1-.7 1.4-.7s.7-.1 1 .1.6.4.8 1.3l.3 2.7.1 2.4.2 4.1c0 .3.2 3.1.2 3.3s.2 2.7.2 3.2l-.1 2.5c.1 1.6.5 3.1-.2 4.6-.6 1.4-1.7 2.7-2.9 3.6-.5.4-1.9 1.3-2.9 1.7-1.1.5-2.2.8-3.3 1.1-.5.1-1.4.4-2.3.3s-1.8-.6-2.1-1l-1.6-2.3c-.6-.8-2.1-2.3-2.3-2.5l-2.7-2.8c-.2-.2-2.7-3.5-2.9-3.8l-3.1-4.7-1.8-3.2-1.5-2.8-.9-1.8c-.1-.2-.3-1.1-.2-1.4.3-1.2 1.4-1.4 2.3-.7.3.2.9 1 1.1 1.3s6.1 8.1 6.1 8.1c.2.3.7.3.9 0s-.1-.7-.2-.9c-.4-.6-8.3-11.5-8.3-11.5s-.6-.9-.7-1.1c-.3-1.1 0-2.3 1.1-2.7s1.9.3 2.6 1.1c.3.3 8.3 11.5 8.3 11.5.2.2.3.3.5.3.3 0 .5-.4.4-.7-.1-.2-.5-.9-.5-.9L11.8 9c-.6-1-.9-2-.1-3 .7-.8 2.2-1.3 3-.2.3.3 10.1 14.3 10.1 14.3.2.2.5.4.7.3.5-.1.3-.7.1-1-.1-.2-8.4-11.8-8.4-11.8-.4-.9-.6-2 .2-2.8 1-1.1 2.5-.5 3.3.5.2.3 1 1.4 1 1.4l2.7 3.7c.1.2 3.4 4.4 3.8 4.8.9 1.1 1.8 2.2 2.7 3.2l.5.5c.1.1.1.4.1.8 0 1.3.1 2.6.1 3.9 0 .2.1.4.2.6.3.3.6.1.7-.2.1-.2 0-2.4 0-2.7-.3-.3-.5-1.3-.4-2.9zM12.2 46.9s-2.8-.8-4.8-2.7-2.6-2.7-2.8-3-1.8-3-2-3.6c-.2-.5-.2-.7.2-1 .4-.4 1-.5 1.3.1.1.2.4 1 .5 1.2s1 1.9 1.7 2.8 1.6 2.2 4.4 3.8c.6.3 1.2.6 1.9.9.3.1.6.2.8.4.1.2.1.6-.1.8-.2.4-.7.4-1.1.3zM7.1 30.7l.9 3.1c.3.7 1.1 2.3 1.9 3.3s2.4 2.6 3.4 3.2 2 1.1 3 1.5c1 .3 1.1.4 1.2.5.3.4.2 1.2-.4 1.3-.2 0-1.2 0-1.8-.3L12 41.7c-.5-.4-3.9-3.1-5.1-6S5.3 31 5.2 30.4s-.2-1.1 0-1.4c.3-.4.9-.8 1.3-.3.2.3.3.6.3.9.1 0 .2.8.3 1.1zm26.8-25s.2-.1.5-.1.8.3 1.4.7 1.9 1 3.6 2.9 2.9 3.9 3.4 5.8c.5 1.8.8 3.1.9 5.5 0 .5.1 1.6 0 1.7-.2.5-.5.7-1 .7-.6 0-.7-.5-.7-1l-.1-2.9c-.1-.6-.3-1.9-.7-2.9-.3-1-.7-2.3-1.7-3.6-.9-1.3-2.1-2.8-3.2-3.5l-2.4-1.5c-.6-.6-.7-1.2 0-1.8zm4.9-2.5s.3-.2.5-.1c.2 0 .7.3.9.4s2.1 1.3 3.6 3c1.5 1.6 3.5 5.1 3.7 7.4.1.4.2.9 0 1-.2.2-.4.4-.7.4-.2 0-.5 0-.7-.1-.1-.2-.4-1.1-.4-1.3s-.6-2-1.1-3.1C44 9.7 43.5 8.5 42 7.1s-2.2-1.9-2.8-2.2-1.1-.6-1.1-1c.1-.3.3-.6.7-.7z"/></svg>
+                styles:
+                  state:
+                    [top: 25%, left: 11%, line-height: 2vw, position: absolute]
+                  card:
+                    [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.8)', font-size: 1.34vw, 
+                    background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 5.0vw, box-shadow: none, transition: none]  
+                  custom_fields:
+                    icon_test:
+                      [top: 25%, left: 80%, width: 2vw, position: absolute]             
             
             #########################    PEOPLE    #########################
                         
@@ -5541,6 +5797,47 @@ views:
               action: navigate
               navigation_path: /lovelace/3
             type: image
+            
+          #################################################
+          #                                               #
+          #                AFVALWIJZER                    #
+          #                                               #
+          #################################################
+
+          - type: conditional
+            conditions:
+              - entity: input_boolean.afval
+                state: 'on'
+            elements:
+              - type: custom:button-card
+                entity: sensor.afvalwijzer_next_type_and_date
+                aspect_ratio: 4.5/1
+                style:
+                  top: 58%
+                  left: 11.7%
+                  width: 20.5078125%
+                show_icon: false
+                show_name: false
+                show_state: true
+                tap_action:
+                  action: call-service
+                  service: input_boolean.turn_off
+                  service_data:
+                    entity_id: input_boolean.afval                
+                hold_action: none
+                custom_fields:
+                  icon_test: >
+                    <svg viewBox="0 0 50 50"><style>@keyframes animate{10%, 20%, 100%{transform: rotateZ(0deg);}30%, 50%, 70%{transform: rotateZ(7deg);}90%{transform: rotateZ(3deg);}40%, 60%, 80%{transform: rotateZ(-7deg);}}.animate{animation: animate 1.35s infinite cubic-bezier(0.5, 1, 0.89, 1); animation-fill-mode: both; transform-origin: 70% 80%; animation-delay: 0s;}</style>
+                    <path class="animate" fill="#ff0000" d="M32.1 18.4s.3-1.6.7-2.1c.3-.6.9-1.4 1.6-1.8.6-.4 1.1-.7 1.4-.7s.7-.1 1 .1.6.4.8 1.3l.3 2.7.1 2.4.2 4.1c0 .3.2 3.1.2 3.3s.2 2.7.2 3.2l-.1 2.5c.1 1.6.5 3.1-.2 4.6-.6 1.4-1.7 2.7-2.9 3.6-.5.4-1.9 1.3-2.9 1.7-1.1.5-2.2.8-3.3 1.1-.5.1-1.4.4-2.3.3s-1.8-.6-2.1-1l-1.6-2.3c-.6-.8-2.1-2.3-2.3-2.5l-2.7-2.8c-.2-.2-2.7-3.5-2.9-3.8l-3.1-4.7-1.8-3.2-1.5-2.8-.9-1.8c-.1-.2-.3-1.1-.2-1.4.3-1.2 1.4-1.4 2.3-.7.3.2.9 1 1.1 1.3s6.1 8.1 6.1 8.1c.2.3.7.3.9 0s-.1-.7-.2-.9c-.4-.6-8.3-11.5-8.3-11.5s-.6-.9-.7-1.1c-.3-1.1 0-2.3 1.1-2.7s1.9.3 2.6 1.1c.3.3 8.3 11.5 8.3 11.5.2.2.3.3.5.3.3 0 .5-.4.4-.7-.1-.2-.5-.9-.5-.9L11.8 9c-.6-1-.9-2-.1-3 .7-.8 2.2-1.3 3-.2.3.3 10.1 14.3 10.1 14.3.2.2.5.4.7.3.5-.1.3-.7.1-1-.1-.2-8.4-11.8-8.4-11.8-.4-.9-.6-2 .2-2.8 1-1.1 2.5-.5 3.3.5.2.3 1 1.4 1 1.4l2.7 3.7c.1.2 3.4 4.4 3.8 4.8.9 1.1 1.8 2.2 2.7 3.2l.5.5c.1.1.1.4.1.8 0 1.3.1 2.6.1 3.9 0 .2.1.4.2.6.3.3.6.1.7-.2.1-.2 0-2.4 0-2.7-.3-.3-.5-1.3-.4-2.9zM12.2 46.9s-2.8-.8-4.8-2.7-2.6-2.7-2.8-3-1.8-3-2-3.6c-.2-.5-.2-.7.2-1 .4-.4 1-.5 1.3.1.1.2.4 1 .5 1.2s1 1.9 1.7 2.8 1.6 2.2 4.4 3.8c.6.3 1.2.6 1.9.9.3.1.6.2.8.4.1.2.1.6-.1.8-.2.4-.7.4-1.1.3zM7.1 30.7l.9 3.1c.3.7 1.1 2.3 1.9 3.3s2.4 2.6 3.4 3.2 2 1.1 3 1.5c1 .3 1.1.4 1.2.5.3.4.2 1.2-.4 1.3-.2 0-1.2 0-1.8-.3L12 41.7c-.5-.4-3.9-3.1-5.1-6S5.3 31 5.2 30.4s-.2-1.1 0-1.4c.3-.4.9-.8 1.3-.3.2.3.3.6.3.9.1 0 .2.8.3 1.1zm26.8-25s.2-.1.5-.1.8.3 1.4.7 1.9 1 3.6 2.9 2.9 3.9 3.4 5.8c.5 1.8.8 3.1.9 5.5 0 .5.1 1.6 0 1.7-.2.5-.5.7-1 .7-.6 0-.7-.5-.7-1l-.1-2.9c-.1-.6-.3-1.9-.7-2.9-.3-1-.7-2.3-1.7-3.6-.9-1.3-2.1-2.8-3.2-3.5l-2.4-1.5c-.6-.6-.7-1.2 0-1.8zm4.9-2.5s.3-.2.5-.1c.2 0 .7.3.9.4s2.1 1.3 3.6 3c1.5 1.6 3.5 5.1 3.7 7.4.1.4.2.9 0 1-.2.2-.4.4-.7.4-.2 0-.5 0-.7-.1-.1-.2-.4-1.1-.4-1.3s-.6-2-1.1-3.1C44 9.7 43.5 8.5 42 7.1s-2.2-1.9-2.8-2.2-1.1-.6-1.1-1c.1-.3.3-.6.7-.7z"/></svg>
+                styles:
+                  state:
+                    [top: 25%, left: 11%, line-height: 2vw, position: absolute]
+                  card:
+                    [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.8)', font-size: 1.34vw, 
+                    background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 5.0vw, box-shadow: none, transition: none]  
+                  custom_fields:
+                    icon_test:
+                      [top: 25%, left: 80%, width: 2vw, position: absolute]             
                       
             #########################    PEOPLE    #########################
                         

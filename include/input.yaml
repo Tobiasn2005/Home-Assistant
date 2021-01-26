@@ -21,6 +21,19 @@ input_boolean:
     initial: off
   netflix:
     initial: off  
+  waste_moved:
+    name: Waste has been moved
+    initial: off
+    icon: mdi:delete-empty
+  waste_reminder:
+    name: Waste reminder enabled
+    initial: on   
+  afval:
+    initial: off
+  hvac:
+    initial: off
+  defrost:
+    initial: off
 
 input_select:
 
@@ -80,4 +93,39 @@ input_number:
     min: 5
     max: 70
     step: 2
-    unit_of_measurement: '%'      
+    unit_of_measurement: '%' 
+
+  tesla_lf:
+    name: Left Front Seat
+    initial: 0
+    min: 0
+    max: 3
+    step: 1
+    
+  tesla_rf:
+    name: Right Front Seat
+    initial: 0
+    min: 0
+    max: 3
+    step: 1    
+
+  tesla_lr:
+    name: Left Rear Seat
+    initial: 0
+    min: 0
+    max: 3
+    step: 1    
+
+  tesla_mr:
+    name: Middle Rear Seat
+    initial: 0
+    min: 0
+    max: 3
+    step: 1  
+
+  tesla_rr:
+    name: Right Rear Seat
+    initial: 0
+    min: 0
+    max: 3
+    step: 1      

@@ -153,6 +153,13 @@ sensor:
     name: tesla_speed
     state_topic: "teslamate/cars/1/speed"
     icon: mdi:speedometer
+    
+  - platform: template
+    sensors:
+      tesla_speed_round:
+        value_template: "{{ '%.0f'%(states('sensor.tesla_speed') | float) | float }}"
+        friendly_name: Speed
+        unit_of_measurement: "Km/h"   
   
   - platform: mqtt
     name: tesla_state
@@ -178,6 +185,12 @@ sensor:
     name: tesla_update_available
     state_topic: "teslamate/cars/1/update_available"
     icon: mdi:gift
+    
+  - platform: mqtt
+    name: toon_humidity
+    state_topic: "homie/homey-topic/toon/measure-humidity"
+    unit_of_measurement: "%"    
+    icon: mdi:water
     
   - platform: mqtt
     name: Stappen
@@ -341,6 +354,17 @@ sensor:
           {{ 'Latest' if states('sensor.hass_version_installed') == 
           states('sensor.hass_release_notes_rc') else states('sensor.hass_release_notes_rc') }}
           
+      hass_version_template:
+        icon_template: 'mdi:home-assistant'
+        friendly_name_template: >-
+          Installed {{ states('sensor.hass_version_installed') }}
+        value_template: >-
+          {% if states('sensor.hass_version_installed') == states('sensor.hass_version_latest') %}
+            Current
+          {% else %}
+            {{ states('sensor.hass_version_latest') }}
+          {% endif %}          
+          
       hass_uptime:
         friendly_name: Last restart
         icon_template: mdi:update
@@ -383,7 +407,32 @@ sensor:
           {% if is_state(entity_id, 'normal') %} Good
           {% elif is_state(entity_id, 'background') %} Checking
           {% else %} {{ states(entity_id) }}
-          {% endif %}      
+          {% endif %}
+
+      afvalwijzer_next_type_and_date:
+        friendly_name: Upcoming trash
+        value_template: >
+          {% set ns = namespace(minimum=365) %}
+          {% set list = ['GFT', 'Papier', 'Plastic', 'Restafval'] %}
+          {%- for l in list %}
+          {%- set days = state_attr('sensor.afvalwijzer_' ~l, 'days_until_collection_date')%}
+          {%- if days != None and days < ns.minimum %}
+          {%- set ns.minimum = days %}
+          {%- endif %}
+          {%- endfor %}
+          {%- for l in list %}
+          {%- set days = state_attr('sensor.afvalwijzer_' ~l, 'days_until_collection_date')%}
+          {%- if days == ns.minimum %}
+          {{l}} · {{ states('sensor.afvalwijzer_' ~l) }}
+          {%- endif %}
+          {%- endfor %}
+        entity_picture_template: >
+          {% set mapper = {'Papier': '/local/ui/afval/papier.png',
+                           'GFT': '/local/ui/afval/gft.png',
+                           'Plastic': '/local/ui/afval/plastic.png',
+                           'Restafval': '/local/ui/afval/rest.png'} %}
+          {% set state = states('sensor.afvalwijzer_next_type_and_date') %}
+          {{ mapper[state] if state in mapper else '/local/ui/afval/geen.png' }}  
   
   - platform: version
     name: hass_version_installed
@@ -426,6 +475,15 @@ sensor:
     sampling_size: 20000000
     max_age:
       hours: 43
+      
+  - platform: afvalwijzer
+    provider: mijnafvalwijzer        # (required, default = mijnafvalwijzer) either choose mijnafvalwijzer or afvalstoffendienstkalender
+    postal_code: !secret postcode    # (required, default = '')
+    street_number: !secret nummer    # (required, default = '')
+    suffix: ''                       # (optional, default = '')
+    include_date_today: false        # (optional, default = false) to take or not to take Today into account in the next pickup.
+    default_label: Geen              # (optional, default = Geen) label if no date found
+    id: ''                           # (optional, default = '') use if you'd like to have multiple waste pickup locations in HASS      
 
     
 binary_sensor:
@@ -449,7 +507,12 @@ binary_sensor:
         value_template: >
           {% set entity_id = 'media_player.playstation_4' %}
           {{ not (is_state(entity_id, 'off') or is_state(entity_id, 'standby') 
-          or is_state(entity_id, 'unknown')) }}  
+          or is_state(entity_id, 'unknown')) }} 
+
+      afvalwijzer:
+        icon_template: mdi:alert
+        value_template: >
+          {{ not is_state('sensor.afvalwijzer_tomorrow', 'Geen') }}
           
       sonos_keuken_mute_check:
         icon_template: mdi:speaker
