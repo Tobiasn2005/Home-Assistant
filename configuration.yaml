@@ -117,8 +117,8 @@ spotcast:
 camera:
   - platform: mjpeg
     name: Oprit
-    still_image_url: http://192.168.1.91/snapshot.jpg?user=Beeklaan14!&pwd=Beeklaan14!&strm=0
-    mjpeg_url: http://Beeklaan14!:Beeklaan14!@192.168.1.91/videostream.cgi?rate=24
+    still_image_url: http://192.168.1.91/snapshot.jpg?user=x&pwd=z!&strm=0
+    mjpeg_url: http://x:z@192.168.1.91/videostream.cgi?rate=24
 
 weather:
   - platform: buienradar
